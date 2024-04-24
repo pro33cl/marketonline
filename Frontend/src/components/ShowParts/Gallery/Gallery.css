@@ -1,0 +1,30 @@
+/* width <=576px, CELLPHONE*/
+
+.container-cards{
+    width: 90%;
+    height: 100%;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: center;
+}
+
+
+
+/* 576px < width < 992px , TABLETS*/
+@media(min-width: 576px){
+
+    .container-cards{
+        grid-template-columns: 1fr 1fr;
+    }
+    
+}
+/* 992px < width, DESKTOP*/
+@media(min-width: 992px){
+
+    .container-cards{
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+}

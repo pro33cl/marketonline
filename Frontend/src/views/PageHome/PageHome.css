@@ -1,0 +1,17 @@
+
+
+.pagehome-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+
+}
+
+.image-home{
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 10rem;
+    width: 100%;
+    background-color:aquamarine;
+}

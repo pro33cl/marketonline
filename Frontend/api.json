@@ -1,0 +1,184 @@
+{
+  "products": [
+    {
+      "id": "0",
+      "name": "feer",
+      "description": "ernwren qerq oerf or",
+      "images": [
+        "fer",
+        "erer",
+        "rvwr"
+      ],
+      "price": 5000,
+      "evaluation": 4.2,
+      "category": "shoes",
+      "seller": "wrfrf"
+    },
+    {
+      "id": "1",
+      "name": "feerer",
+      "description": "ernwren qerq oerf or",
+      "images": [
+        "fer",
+        "erer",
+        "rvwr"
+      ],
+      "price": 6000,
+      "evaluation": 4.1,
+      "category": "pants",
+      "seller": "wrfrf"
+    },
+    {
+      "id": "2",
+      "name": "feer3f3f",
+      "description": "ernwren qerq oerf or",
+      "images": [
+        "fer",
+        "erer",
+        "rvwr"
+      ],
+      "price": 7000,
+      "evaluation": 4.3,
+      "category": "pants",
+      "seller": "wrfrf"
+    },
+    {
+      "id": "3",
+      "name": "feer3f34f",
+      "description": "ernwren qerq oerf or",
+      "images": [
+        "fer",
+        "erer",
+        "rvwr"
+      ],
+      "price": 8000,
+      "evaluation": 4.9,
+      "category": "shoes",
+      "seller": "wrfrf"
+    },
+    {
+      "id": "4",
+      "name": "feer34f3",
+      "description": "ernwren qerq oerf or",
+      "images": [
+        "fer",
+        "erer",
+        "rvwr"
+      ],
+      "price": 10000,
+      "evaluation": 4.8,
+      "category": "pants",
+      "seller": "wrfrf"
+    }
+  ],
+  "users": [
+    {
+      "id": "0",
+      "email": "email@email.com",
+      "password": "ERFWERFee",
+      "age": 30,
+      "name": "frtg4",
+      "lastname": "wfwef",
+      "phone": "+5699988522"
+    },
+    {
+      "id": "1",
+      "email": "email2@email.com",
+      "password": "peopeo",
+      "age": "48",
+      "name": "frtg4WWEW",
+      "lastname": "cambiemos todo no más",
+      "phone": "+5699988522"
+    },
+    {
+      "id": "2",
+      "email": "email@email.com",
+      "password": "ERFWERFee",
+      "age": 32,
+      "name": "frtg4",
+      "lastname": "wfwef",
+      "phone": "+5699988522"
+    },
+    {
+      "id": 3,
+      "email": "email2@email.com",
+      "password": "ERFWERFee",
+      "age": 32,
+      "name": "frtg4WWEW",
+      "lastname": "wfweWCWEf",
+      "phone": "+5699988522"
+    },
+    {
+      "id": 6,
+      "email": "pro33cl@yahoo.com",
+      "name": "Hector Antonio",
+      "lastname": "Rubilar Valenzuela",
+      "phone": "0993398843",
+      "age": "35",
+      "password": "12345678"
+    }
+  ],
+  "users_sales": [
+    {
+      "id": "0",
+      "name": "Peo Envasado",
+      "description": "Entero Pulento",
+      "images": [
+        "fer",
+        "erer",
+        "rvwr"
+      ],
+      "price": "8500",
+      "evaluation": 4.2,
+      "category": "shoes",
+      "image": "wachinango.jpg"
+    },
+    {
+      "id": "1",
+      "name": "feerer",
+      "description": "ernwren qerq oerf or",
+      "images": [
+        "fer",
+        "erer",
+        "rvwr"
+      ],
+      "price": 6000,
+      "evaluation": 4.1,
+      "category": "pants"
+    },
+    {
+      "id": "2",
+      "name": "feer3f3f",
+      "description": "ernwren qerq oerf or",
+      "images": [
+        "fer",
+        "erer",
+        "rvwr"
+      ],
+      "price": 7000,
+      "evaluation": 4.3,
+      "category": "pants"
+    },
+    {
+      "id": null,
+      "name": "Cosas",
+      "description": "leseras",
+      "image": "hola",
+      "price": "7000",
+      "category": ""
+    },
+    {
+      "id": null,
+      "name": "cosas que se dicen",
+      "description": "ahí vamo\n",
+      "image": "poi",
+      "price": "56000",
+      "category": ""
+    }
+  ],
+  "login": {
+    "id": 1,
+    "email": "email2@email.com",
+    "password": "peopeo"
+  }
+}
