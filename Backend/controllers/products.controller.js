@@ -3,29 +3,39 @@
 // ----------------------------------------------------------
 
 
-const welcome = function (){
+// FUNCION - FINDALL_PRODUCTS
+const findAll_Products = async function(){
+
+
 
 
 }
 
-const read = function (){
+// FUNCION - FINDBYFILTER_PRODUCTS
+const findByFilter_Products = async function(){
 
-    
-}
 
-const readById = function (){
 
-    
-}
 
-const readByFilter = function (){
+} 
 
-    
-}
+// FUNCION - FINDBYFILTER_PRODUCTS
+const findById_Product = async function(){
+
+
+
+
+} 
+
+const create_Product = async function(){} 
+
+const updateById_Product = async function(){}
+
+const removeById_Product = async function(){}
 
 
 // ----------------------------------------------------------
 // EXPORTANDO
 // ----------------------------------------------------------
 
-export const productsController = { welcome, read, readById, readByFilter };
+export const productsController = { findAll_Products, findByFilter_Products, findById_Product, create_Product, updateById_Product, removeById_Product };
