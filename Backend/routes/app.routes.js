@@ -18,17 +18,17 @@ const router = Router();
 // GET
 // ----------------------------------------------------------
 
-router.get("/", productsController.findAll_Products);
+router.get("/", productsController.findAllByFilterPagination_Products);
 
-router.get("/products/", productsController.findAll_Products);
+router.get("/products/", productsController.findAllByFilterPagination_Products);
 
 router.get("/products/:id", productsController.findById_Product);
 
-router.get("/products/filter/", productsController.findByFilter_Products);
+router.get("/products/filter/", productsController.findAllByFilterPagination_Products);
 
 router.get("/products/user/data", credentialController.validateToken, usersController.findById_User);
 
-router.get("/products/user/sales", credentialController.validateToken, salesController.findAllById_Sales);
+router.get("/products/user/sales", credentialController.validateToken, salesController.findAllByPagination_Sales);
 
 // ----------------------------------------------------------
 // POST

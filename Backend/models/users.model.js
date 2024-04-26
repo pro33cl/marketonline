@@ -94,7 +94,7 @@ const updateById_User = async function(id, user){
 
     if(user.phone && user.phone != undefined && isNaN(user.phone)){
 
-        query = `UPDATE users SET phone = %s WHERE id = %s`;
+        query = `UPDATE users SET phone = '%s' WHERE id = %s`;
         formattedQuery = format(query, user.phone, id);
         let {rows} = await pool.query(formattedQuery);
     }

@@ -55,7 +55,16 @@ SELECT * FROM users;
 
 SELECT * FROM category;
 
-SELECT * FROM products;					 
+SELECT * FROM products;
+
+SELECT * FROM products WHERE id_seller = 1;
+
+SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
+	FROM products 
+	LEFT JOIN category 
+	ON products.id_category = category.id
+	WHERE products.id_seller = 1;
+
 					 
 					 
 					 

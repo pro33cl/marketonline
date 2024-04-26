@@ -3,16 +3,11 @@
 // ----------------------------------------------------------
 
 
-// FUNCION - FINDALL_PRODUCTS
-const findAll_Products = async function(){
 
+const findAll_Products = async function(){}
 
-
-
-}
-
-// FUNCION - FINDBYFILTER_PRODUCTS
-const findByFilter_Products = async function(){
+// FUNCION - FINDALLBYFILTERPAGINATION_PRODUCTS
+const findAllByFilterPagination_Products = async function(){
 
 
 
@@ -38,4 +33,4 @@ const removeById_Product = async function(){}
 // EXPORTANDO
 // ----------------------------------------------------------
 
-export const productsController = { findAll_Products, findByFilter_Products, findById_Product, create_Product, updateById_Product, removeById_Product };
+export const productsController = { findAll_Products, findAllByFilterPagination_Products, findById_Product, create_Product, updateById_Product, removeById_Product };

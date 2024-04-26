@@ -10,7 +10,7 @@ const findAllById_Sales = async function(){
 
 }
 
-const findByFilter_Sales = async function(){} 
+const findAllByPagination_Sales = async function(){} 
 
 const findById_Sale = async function(){} 
 
@@ -44,4 +44,4 @@ const removeById_Sale = async function(){
 // EXPORTANDO
 // ----------------------------------------------------------
 
-export const salesController = { findAllById_Sales, findByFilter_Sales, findById_Sale, create_Sale, createById_Sale, updateById_Sale, removeById_Sale};
+export const salesController = { findAllById_Sales, findAllByPagination_Sales, findById_Sale, create_Sale, createById_Sale, updateById_Sale, removeById_Sale};

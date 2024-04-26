@@ -3,43 +3,188 @@
 // IMPORTANDO
 // ----------------------------------------------------------
 
-import {pool} from "../database/connection.js";
+import { pool } from "../database/connection.js";
 import format from "pg-format";
 
 // ----------------------------------------------------------
 // FUNCIONES
 // ----------------------------------------------------------
 
-// FUNCION - FINDALL_PRODUCTS
-const findAll_Products = async function(){
+// FUNCION - COUNTPAGES
+const countPages = async function (limit_V, filters_V) {
 
+    const limit = limit_V;
+    const { category, search } = filters_V;
 
+    let query, formattedQuery;
+    let values = [];
+    let queryValues1 = [];
+    let queryValues2 = [];
+    let total_rows;
+    let total_pages;
 
+    if (category || search) {
 
+        query = 'SELECT COUNT(*) FROM products WHERE';
+
+        if (category) {
+
+            values.push(category);
+            queryValues1.push("category = '%s'");
+        }
+
+        if (search) {
+
+            values.push(search);
+            values.push(search);
+            queryValues2.push("name = '%s'");
+            queryValues2.push("description CONTAINS '%s'");
+        }
+
+        if(category && search){
+
+            query = `${query} ${queryValues1} AND ( ${queryValues2.join(' OR ')} )`;
+
+        }else if(category && !search){
+
+            query = `${query} ${queryValues1}`;
+
+        }else if(!category && search){
+
+            query = `${query} ${queryValues2.join(' OR ')}`;
+
+        }
+
+        formattedQuery = format(query, ...values);
+        const { rows: countResults } = await pool.query(formattedQuery);
+        total_rows = parseInt(countResults[0].count, 10);
+
+    }
+    else {
+
+        query = 'SELECT COUNT(*) FROM products';
+        const { rows: countResults } = await pool.query(query);
+        total_rows = parseInt(countResults[0].count, 10);
+    }
+
+    total_pages = limit > 0 ? Math.ceil(total_rows / limit) : 1;
+    
+    return total_pages;
+}
+
+const findAll_Products = async function () {}
+
+// FUNCION - FINDALLBYFILTERPAGINATION_PRODUCTS
+const findAllByFilterPagination_Products = async function (filters_V, pagination_V) {
+
+    const { category, search } = filters_V;
+    const { orderBy, order, limit, page} = pagination_V;
+    const offset = (page-1)*limit;
+    
+    const total_pages = await countPages(limit, filters_V);
+
+    let query;
+    let values = [];
+    let queryValues1 = [];
+    let queryValues2 = [];
+    let formattedQuery;
+
+    if(category || search){
+
+        query = 'SELECT * FROM products WHERE';
+
+        if (category) {
+
+            values.push(category);
+            queryValues1.push("category = '%s'");
+        }
+
+        if (search) {
+
+            values.push(search);
+            values.push(search);
+            queryValues2.push("name = '%s'");
+            queryValues2.push("description CONTAINS '%s'");
+        }
+
+        if(category && search){
+
+            query = `${query} ${queryValues1} AND ( ${queryValues2.join(' OR ')} )`;
+
+        }else if(category && !search){
+
+            query = `${query} ${queryValues1}`;
+
+        }else if(!category && search){
+
+            query = `${query} ${queryValues2.join(' OR ')}`;
+        }
+
+        if(limit){
+
+            values.push(orderBy);
+            values.push(order);
+
+            if (limit <= 0) {
+
+                query = `${query} ORDER BY %s %s`;
+                formattedQuery = format(query, ...values);
+
+            }else{
+
+                values.push(limit);
+                values.push(offset);
+                query = `${query} ORDER BY %s %s LIMIT %s OFFSET %s`;
+                formattedQuery = format(query, ...values);
+            }
+
+        }else{
+
+            formattedQuery = format(query, ...values);
+        }
+    }
+    else{
+
+        values.push(orderBy);
+        values.push(order);
+
+        if(limit<=0){
+    
+            query = 'SELECT * FROM products ORDER BY %s %s ';
+            formattedQuery = format(query, ...values);
+    
+        }
+        else{
+
+            values.push(limit);
+            values.push(offset);
+            query = 'SELECT * FROM products ORDER BY %s %s LIMIT %s OFFSET %s';
+            formattedQuery = format(query, ...values);
+    
+        }
+    }
+
+    const { rows } = await pool.query(formattedQuery);
+    return rows;
 }
 
 // FUNCION - FINDBYFILTER_PRODUCTS
-const findByFilter_Products = async function(){
+const findById_Product = async function (id) {
+
+    const query = "SELECT * FROM products WHERE id = %s";
+    const values = id;
+    const formattedQuery = format(query, values);
+    const {rows} = await pool.query(formattedQuery);
+    return rows[0];
+
+}
+
+const create_Product = async function () { }
+
+const updateById_Product = async function () { }
+
+const removeById_Product = async function () { }
 
 
 
-
-} 
-
-// FUNCION - FINDBYFILTER_PRODUCTS
-const findById_Product = async function(){
-
-
-
-
-} 
-
-const create_Product = async function(){} 
-
-const updateById_Product = async function(){}
-
-const removeById_Product = async function(){}
-
-
-
-export const usersModel = {findAll_Products, findByFilter_Products, findById_Product, create_Product, updateById_Product, removeById_Product};
+export const usersModel = { findAll_Products, findAllByFilterPagination_Products, findById_Product, create_Product, updateById_Product, removeById_Product };

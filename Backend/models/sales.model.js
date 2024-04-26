@@ -10,7 +10,9 @@ import format from "pg-format";
 // FUNCIONES
 // ----------------------------------------------------------
 
-// FUNCION - FINDALL_SALES
+// Asociar category con id_category
+
+// FUNCION - FINDIDCATEGORYBYSALE
 const findIdCategoryBySale_Sales = async function(sale){
 
     const category = sale.category;
@@ -24,22 +26,71 @@ const findIdCategoryBySale_Sales = async function(sale){
 
 
 
-// FUNCION - FINDALL_SALES
+// FUNCION - FINDALLBYID_SALES
 const findAllById_Sales = async function(id_seller){
 
-    const query = "SELECT * FROM products WHERE id_seller = %s";
+    const query = `SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
+	                    FROM products 
+	                    LEFT JOIN category 
+	                    ON products.id_category = category.id
+	                        WHERE products.id_seller = %s`;
     const values = id_seller;
     const formattedQuery = format(query, values);
     const {rows} = await pool.query(formattedQuery);
     return rows;
 }
 
-const findByFilter_Sales = async function(){} 
+// FUNCION - FINDALLBYIDPAGINATION_SALES
+const findAllByIdPagination_Sales = async function(id_seller, pagination_V){
+
+    const query = `SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
+                        FROM products 
+                        LEFT JOIN category 
+                        ON products.id_category = category.id
+                        WHERE products.id_seller = %s`;
+
+    const { orderBy, order, limit, page} = pagination_V;
+    const offset = (page-1)*limit;
+
+    values.push(id_seller);
+
+    if(limit){
+
+        values.push(orderBy);
+        values.push(order);
+
+        if (limit <= 0) {
+
+            query = `${query} ORDER BY %s %s`;
+            formattedQuery = format(query, ...values);
+
+        }else{
+
+            values.push(limit);
+            values.push(offset);
+            query = `${query} ORDER BY %s %s LIMIT %s OFFSET %s`;
+            formattedQuery = format(query, ...values);
+        }
+
+    }else{
+
+        formattedQuery = format(query, ...values);
+    }
+
+    const { rows } = await pool.query(formattedQuery);
+    return rows;
+
+} 
 
 // FUNCION - FINBYID_SALE
 const findById_Sale = async function(id){
 
-    const query = "SELECT * FROM products WHERE id = %s";
+    const query = `SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
+                    FROM products 
+                    LEFT JOIN category 
+                    ON products.id_category = category.id
+                        WHERE products.id = %s`;
+
     const values = id;
     const formattedQuery = format(query, values);
     const {rows} = await pool.query(formattedQuery);
@@ -59,7 +110,6 @@ const createById_Sale = async function(id_seller, sale){
     const {rows} = await pool.query(formattedQuery);
     return rows[0]; 
 } 
-
 
 
 // FUNCION - UPDATEBYID_SALE
@@ -119,4 +169,4 @@ const removeById_Sale = async function(id){
 }
 
 
-export const usersModel = {findAllById_Sales, findByFilter_Sales, findById_Sale, create_Sale, createById_Sale , updateById_Sale, removeById_Sale};
+export const usersModel = {findAllById_Sales, findAllByIdPagination_Sales, findById_Sale, create_Sale, createById_Sale , updateById_Sale, removeById_Sale};
