@@ -6,6 +6,7 @@
 import {pool} from "../database/connection.js";
 import format from "pg-format";
 
+
 // ----------------------------------------------------------
 // FUNCIONES
 // ----------------------------------------------------------
@@ -24,7 +25,19 @@ const findIdCategoryBySale_Sales = async function(sale){
     return rows[0].id;
 }
 
+const countPages_Sales = async function(id_seller){
 
+    const limit = 10;
+    const query = `SELECT COUNT(*) FROM products WHERE id_seller = %s`;
+    const values = id_seller;
+    const formattedQuery = format(query, values);
+    const { rows: countResults } = await pool.query(formattedQuery);
+    total_rows = parseInt(countResults[0].count, 10);
+
+    total_pages = limit > 0 ? Math.ceil(total_rows / limit) : 1;
+
+    return total_pages;
+}
 
 // FUNCION - FINDALLBYID_SALES
 const findAllById_Sales = async function(id_seller){
@@ -49,14 +62,14 @@ const findAllByIdPagination_Sales = async function(id_seller, pagination_V){
                         ON products.id_category = category.id
                         WHERE products.id_seller = %s`;
 
-    const { orderBy, order, limit, page} = pagination_V;
+    const { orderby, order, limit, page} = pagination_V;
     const offset = (page-1)*limit;
 
     values.push(id_seller);
 
     if(limit){
 
-        values.push(orderBy);
+        values.push(orderby);
         values.push(order);
 
         if (limit <= 0) {
@@ -169,4 +182,4 @@ const removeById_Sale = async function(id){
 }
 
 
-export const usersModel = {findAllById_Sales, findAllByIdPagination_Sales, findById_Sale, create_Sale, createById_Sale , updateById_Sale, removeById_Sale};
+export const salesModel = {countPages_Sales, findAllById_Sales, findAllByIdPagination_Sales, findById_Sale, createById_Sale , updateById_Sale, removeById_Sale};

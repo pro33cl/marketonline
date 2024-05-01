@@ -72,17 +72,22 @@ const countPages = async function (limit_V, filters_V) {
     return total_pages;
 }
 
-const findAll_Products = async function () {}
+// FUNCION - FINDALLBYFILTERPAGINATION_PRODUCTS
+const findAllCategories = async function(){
+
+    const query = "SELECT * FROM category";
+    const formattedQuery = format(query);
+    const {rows} = await pool.query(formattedQuery);
+    return rows;
+}
 
 // FUNCION - FINDALLBYFILTERPAGINATION_PRODUCTS
 const findAllByFilterPagination_Products = async function (filters_V, pagination_V) {
 
     const { category, search } = filters_V;
-    const { orderBy, order, limit, page} = pagination_V;
+    const { orderby, order, limit, page} = pagination_V;
     const offset = (page-1)*limit;
     
-    const total_pages = await countPages(limit, filters_V);
-
     let query;
     let values = [];
     let queryValues1 = [];
@@ -122,7 +127,7 @@ const findAllByFilterPagination_Products = async function (filters_V, pagination
 
         if(limit){
 
-            values.push(orderBy);
+            values.push(orderby);
             values.push(order);
 
             if (limit <= 0) {
@@ -145,7 +150,7 @@ const findAllByFilterPagination_Products = async function (filters_V, pagination
     }
     else{
 
-        values.push(orderBy);
+        values.push(orderby);
         values.push(order);
 
         if(limit<=0){
@@ -179,12 +184,5 @@ const findById_Product = async function (id) {
 
 }
 
-const create_Product = async function () { }
 
-const updateById_Product = async function () { }
-
-const removeById_Product = async function () { }
-
-
-
-export const usersModel = { findAll_Products, findAllByFilterPagination_Products, findById_Product, create_Product, updateById_Product, removeById_Product };
+export const productsModel = { countPages, findAllCategories, findAllByFilterPagination_Products, findById_Product };

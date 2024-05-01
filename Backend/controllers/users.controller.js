@@ -2,50 +2,132 @@
 // IMPORTANDO
 // ----------------------------------------------------------
 
-// FUNCION - LOGIN
-const login = function(){
+import { usersModel } from '../models/users.model.js';
+import jwt from "jsonwebtoken";
 
+// ----------------------------------------------------------
+// FUNCIONES
+// ----------------------------------------------------------
 
-
-
-
-}
-
-
-const findAll_Users = async function(){}
-
-const findByFilter_Users = async function(){} 
 
 // FUNCION - FINDBYID_USER
-const findById_User = async function(){
+const findById_User = async function(req, res){
 
+    try {
 
+        console.log("users.controller.findById_User: Start");
+        const Authorization = await req.header("Authorization");
+        const token = Authorization.split(" ")[1];
+        const {user_id, user_email} = jwt.decode(token);
+        const user = await usersModel.findById_User(user_id);
 
+        if(!user){
 
-} 
+            console.log("users.controller.findById_User: User not found");
+            return res.status(404).json({message:"User not found", result: null});
 
-// FUNCION - CREATE_USER
-const create_User = async function(){
+        }else{
 
+            console.log("users.controller.findById_User: Success");
+            return res.status(200).json({message:"Success", result: user});
+        } 
+    } catch (error) {
 
+        console.log("users.controller.findById_User: Internal server error");
+        return res.status(500).json({message: "Internal server error", result: error}); 
+        
+    }finally{
 
-
-} 
-
-// FUNCION - UPDATEBYID_USER
-const updateById_User = async function(){
-
-
-
-
+        console.log("users.controller.findById_User: End");
+    }
 }
 
-const removeById_User = async function(){}
+// FUNCION - CREATE_USER
+const create_User = async function(req, res){
 
+    try {
 
+        console.log("users.controller.create_User: Start");
+        const user = await req.body;
+        let newUser;
+
+        if(!user){
+
+            console.log("users.controller.create_User: Post is required");
+            return res.status(400).json({message:"Post is required", result: null});
+        }
+        else if(!user.email || !user.name || !user.lastname || !user.age || !user.phone){
+
+            console.log("users.controller.create_User: Post data is required");
+            return res.status(400).json({message:"Post data is required", result: null});
+        }
+        else{
+
+            newUser = {email: user.email, name: user.name, lastname: user.lastname, age: user.age, phone: user.phone};
+        }
+
+        const posted = await usersModel.create_User(newUser);
+        console.log("users.controller.create_User: Posted");
+        return res.status(201).json({message:"Posted", result: posted});
+        
+    } catch (error) {
+        
+        console.log("users.controller.create_User: Internal server error");
+        return res.status(500).json({message: "Internal server error", result: error});
+
+    }finally{
+
+        console.log("users.controller.create_User: End");
+    }
+}
+
+// FUNCION - UPDATEBYID_USER
+const updateById_User = async function(req, res){
+
+    try {
+
+        console.log("users.controller.updatedById_User: Start");
+        const Authorization = await req.header("Authorization");
+        const token = Authorization.split(" ")[1];
+        const {user_id, user_email} = jwt.decode(token);
+        const {user} = await req.body;
+        let newUser;
+
+        if(!user){
+
+            console.log("users.controller.updatedById_User: Post is required");
+            return res.status(400).json({message:"Post is required", result: null});
+        }
+        else{
+
+            newUser = {email: user.email, name: user.name, lastname: user.lastname, age: user.age, phone: user.phone};
+        }
+
+        const posted = await usersModel.updateById_User(user_id, newUser);
+
+        if(!posted){
+
+            console.log("users.controller.updatedById_User: Not updated");
+            return res.status(404).json({message:"Not updated", result: null});
+        }
+        else{
+
+            console.log("users.controller.updatedById_User: Updated");
+            return res.status(200).json({message:"Updated", result: posted});
+        }
+    } catch (error) {
+
+        console.log("users.controller.updatedById_User: Internal server error");
+        return res.status(500).json({message: "Internal server error", result: error});
+
+    }finally{
+
+        console.log("users.controller.updatedById_User: End");
+    }
+}
 
 // ----------------------------------------------------------
 // EXPORTANDO
 // ----------------------------------------------------------
 
-export const usersController = { login, findAll_Users, findByFilter_Users, findById_User, create_User, updateById_User, removeById_User };
+export const usersController = {findById_User, create_User, updateById_User };

@@ -9,9 +9,6 @@ import format from "pg-format";
 // FUNCIONES
 // ----------------------------------------------------------
 
-const findAll_Users = async function(){}
-
-const findByFilter_Users = async function(){}
 
 // FUNCION - FINDIDBYEMAIL_USER
 const findByEmail_User = async function(email){
@@ -103,8 +100,5 @@ const updateById_User = async function(id, user){
     return response;
 }
 
-const removeById_User = async function(){}
 
-
-
-export const usersModel = {findAll_Users, findByFilter_Users, findById_User, create_User, updateById_User, removeById_User};
+export const usersModel = { findByEmail_User, ifExistEmail_User, findById_User, create_User, updateById_User };
