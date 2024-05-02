@@ -5,6 +5,7 @@ CREATE TABLE users(
 	lastname VARCHAR(50),
 	age INTEGER,
 	phone VARCHAR(50),
+	password VARCHAR(255),
 	PRIMARY KEY (id));
 
 CREATE TABLE category(
@@ -25,7 +26,7 @@ CREATE TABLE products(
 	FOREIGN KEY (id_seller) REFERENCES users(id));
 
 
-INSERT INTO users (email, name, lastname, age, phone) 
+INSERT INTO users (email, name, lastname, age, phone, password) 
 			VALUES ('pro33cl@yahoo.com', 'Hector', 'Rubilar', 38, '+56993398843'),
 				   ('ruben@gmail.com', 'Ruben', 'Soto', 40, '+5699313543'),
 				   ('alejandro@gmail.com', 'Alejandro', 'Merino', 50, '+5699312563'),
@@ -35,7 +36,7 @@ INSERT INTO users (email, name, lastname, age, phone)
 
 
 INSERT INTO category (name)
-		VALUES	  	 ('pantalón'),
+		VALUES	  	 ('pantalon'),
 				     ('falda'),
 				     ('camisa'),
 				     ('blusa'),
@@ -53,6 +54,8 @@ INSERT INTO products (name, image, description, price, id_category, id_seller)
 					 
 SELECT * FROM users;
 
+SELECT * FROM users WHERE id = 2;
+
 SELECT * FROM category;
 
 SELECT * FROM products;
@@ -65,6 +68,7 @@ SELECT products.id, products.name, products.image, products.description, product
 	ON products.id_category = category.id
 	WHERE products.id_seller = 1;
 
-					 
-					 
+SELECT * FROM products WHERE id_category = 1 AND ( name = 'ltn' OR  description LIKE '%ltn%' );
+
+SELECT COUNT(*) FROM products WHERE id_category = 1 AND ( name = 'ltn' OR  description LIKE '%ltn%' );
 					 

@@ -22,6 +22,8 @@ const login = async function(req, res){
         const {email, password} = req.body;
         const user = await usersModel.findByEmail_User(email);
 
+        console.log(user);
+
         if(!user){
 
             console.log("credential.controller.login: User not found");
@@ -30,6 +32,7 @@ const login = async function(req, res){
         }else{
 
             const isMatch = bcript.compareSync(password, user.password);
+            console.log(isMatch);
 
             if(!isMatch){
 
@@ -63,11 +66,12 @@ const validateToken = async function (req, res, next){
         console.log("credential.controller.validateToken: Start");
         const Authorization = await req.header("Authorization");
         const token = Authorization.split(" ")[1];
-
-        if(jwt.verify(token, process.env.JWT_SECRETKEY)){
+        const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
+       
+        if(verifyToken){
 
             const {user_id, user_email} = jwt.decode(token);
-            const user = usersModel.findById_User(user_id);
+            const user = await usersModel.findById_User(user_id);
 
             if(user_id == user.id && user_email == user.email){
 

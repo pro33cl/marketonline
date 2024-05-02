@@ -4,6 +4,7 @@
 
 import { usersModel } from '../models/users.model.js';
 import jwt from "jsonwebtoken";
+import bcript from "bcryptjs";
 
 // ----------------------------------------------------------
 // FUNCIONES
@@ -18,7 +19,9 @@ const findById_User = async function(req, res){
         console.log("users.controller.findById_User: Start");
         const Authorization = await req.header("Authorization");
         const token = Authorization.split(" ")[1];
+        console.log(token);
         const {user_id, user_email} = jwt.decode(token);
+        console.log(user_id);
         const user = await usersModel.findById_User(user_id);
 
         if(!user){
@@ -56,14 +59,24 @@ const create_User = async function(req, res){
             console.log("users.controller.create_User: Post is required");
             return res.status(400).json({message:"Post is required", result: null});
         }
-        else if(!user.email || !user.name || !user.lastname || !user.age || !user.phone){
+        else if(!user.email || !user.name || !user.lastname || !user.age || !user.phone || !user.password){
 
             console.log("users.controller.create_User: Post data is required");
             return res.status(400).json({message:"Post data is required", result: null});
         }
         else{
 
-            newUser = {email: user.email, name: user.name, lastname: user.lastname, age: user.age, phone: user.phone};
+            const ifExistEmail = await usersModel.ifExistEmail_User(user.email);
+
+            if(ifExistEmail){
+
+                console.log("users.controller.create_User: Email already exist");
+                return res.status(400).json({message:"Email already exist", result: null});
+            }
+            else{
+
+                newUser = {email: user.email, name: user.name, lastname: user.lastname, age: user.age, phone: user.phone, password: bcript.hashSync(user.password,10)};
+            } 
         }
 
         const posted = await usersModel.create_User(newUser);
@@ -90,8 +103,11 @@ const updateById_User = async function(req, res){
         const Authorization = await req.header("Authorization");
         const token = Authorization.split(" ")[1];
         const {user_id, user_email} = jwt.decode(token);
-        const {user} = await req.body;
+        console.log("user_id :"+user_id);
+        const user = await req.body;
         let newUser;
+
+        console.log(user);
 
         if(!user){
 
@@ -100,7 +116,7 @@ const updateById_User = async function(req, res){
         }
         else{
 
-            newUser = {email: user.email, name: user.name, lastname: user.lastname, age: user.age, phone: user.phone};
+            newUser = {email: user.email, name: user.name, lastname: user.lastname, age: user.age, phone: user.phone, password: bcript.hashSync(user.password,10)};
         }
 
         const posted = await usersModel.updateById_User(user_id, newUser);

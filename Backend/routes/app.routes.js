@@ -18,15 +18,13 @@ const router = Router();
 // GET
 // ----------------------------------------------------------
 
-router.get("/", productsController.findAllByFilterPagination_Products);
+router.get("/", productsController.findAllByFilterPagination_Products); //lista
 
-router.get("/products/", productsController.findAllByFilterPagination_Products);
+router.get("/products/", productsController.findAllByFilterPagination_Products); //lista
 
-router.get("/products/:id", productsController.findById_Product);
+router.get("/products/:id", productsController.findById_Product); //lista
 
-router.get("/products/filter/", productsController.findAllByFilterPagination_Products);
-
-router.get("/products/user/data", credentialController.validateToken, usersController.findById_User);
+router.get("/products/user/data", credentialController.validateToken, usersController.findById_User); //lista
 
 router.get("/products/user/sales", credentialController.validateToken, salesController.findAllByIdPagination_Sales);
 
@@ -34,9 +32,9 @@ router.get("/products/user/sales", credentialController.validateToken, salesCont
 // POST
 // ----------------------------------------------------------
 
-router.post("/products/login/", credentialController.login);
+router.post("/products/login/", credentialController.login); //lista
 
-router.post("/products/register/", usersController.create_User);
+router.post("/products/register/", usersController.create_User); //lista
 
 router.post("/products/user/sales", credentialController.validateToken, salesController.createById_Sale);
 
@@ -44,7 +42,7 @@ router.post("/products/user/sales", credentialController.validateToken, salesCon
 // PUT
 // ----------------------------------------------------------
 
-router.put("/products/user/data", credentialController.validateToken, usersController.updateById_User);
+router.put("/products/user/data", credentialController.validateToken, usersController.updateById_User); //lista
 
 router.put("/products/user/sales", credentialController.validateToken, salesController.updateById_Sale);
 

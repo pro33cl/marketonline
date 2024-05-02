@@ -10,7 +10,7 @@ import { productsModel } from "../models/products.model.js";
 // ----------------------------------------------------------
 
 // FUNCION - VERIFYFILTERPAGINATION
-const VerifyFilterPagination = function (data){
+const VerifyFilterPagination = async function (data){
 
     try {
 
@@ -21,24 +21,33 @@ const VerifyFilterPagination = function (data){
         let messageError = [];
         let responseJson = {message: "", result: null};
         let category_V, search_V, limit_V, page_V, orderby_V, order_V;
-        let categories = [];
         
-
-        categories = productsModel.findAllCategories();
+        
+        
+        const categories = await productsModel.findAllCategory_Products();
+        console.log("categories: ");
+        console.log(categories);
 
         // Verificando category
+        console.log("products.controller.VerifyFilterPagination: Verifying category");
         if(category){
 
             if(isNaN(category)){
-
-                categories.forEach((element)=>{
+                console.log("category: "+category);
+                console.log("products.controller.VerifyFilterPagination: Verifying category isNaN");
+                let index_category = null;
+                console.log("Antes del forEach");
+                categories.forEach((element,i)=>{
+                    console.log("Entrando al forEach");
                     if(element.name == category){
-                        category_V = category;
+                        index_category=i;
                     }
                 });
 
-                if(!category_V){
-                    category_V = null
+                if(index_category){
+                    category_V = categories[index_category].name;
+                }else{
+                    category_V = null;
                 }
             }   
             else{
@@ -52,6 +61,7 @@ const VerifyFilterPagination = function (data){
         }
 
         // Verificando search
+        console.log("products.controller.VerifyFilterPagination: Verifying search");
         if(search){
 
             if(isNaN(search)){
@@ -69,6 +79,7 @@ const VerifyFilterPagination = function (data){
         }
 
         // Verificando limit
+        console.log("products.controller.VerifyFilterPagination: Verifying limit");
         if(limit && !isNaN(limit) && limit!=undefined){
 
             if(limit>=0){
@@ -85,16 +96,19 @@ const VerifyFilterPagination = function (data){
         }
 
         // Verificando page
-        const total_pages = productsModel.countPages(limit_V, {category_V, search_V});
+        console.log("products.controller.VerifyFilterPagination: Verifying page");
+        const filters_V = {category:category_V, search: search_V};
+        const total_pages = await productsModel.countPages(limit_V, filters_V);
 
         if(page && !isNaN(page) && page!=undefined){
 
-            if(total_pages >= page >1){
+            if(total_pages >= page >=1){
 
                 page_V = parseInt(page,10);
 
             }else if(page < 1){
 
+                console.log("por aquí2");
                 page_V = 1;
 
             }else if (total_pages < page){
@@ -108,6 +122,7 @@ const VerifyFilterPagination = function (data){
         }
 
         // Verificando order_by
+        console.log("products.controller.VerifyFilterPagination: Verifying orderby");
         if(orderby && orderby!=undefined){
 
             const [orderby_param, orderby_order] = orderby.split("_");
@@ -115,14 +130,11 @@ const VerifyFilterPagination = function (data){
             if(orderby_param && (orderby_param == "id" || orderby_param == "price")){
     
                 orderby_V = orderby_param;
-    
             }
             else{
     
                 orderby_V = "id";
-    
             }
-    
             if(orderby_order && (orderby_order == "ASC" || orderby_order == "DESC")){
     
                 order_V = orderby_order;
@@ -130,7 +142,6 @@ const VerifyFilterPagination = function (data){
             else{
     
                 order_V = "ASC";
-    
             }
         }
         else {
@@ -162,9 +173,20 @@ const findAllByFilterPagination_Products = async function (req, res){
 
         console.log("products.controller.findAllByFilterPagination_Products: Start");
         const {category, search, orderby, order, limit, page} = await req.query;
-        const {category_V, search_V, orderby_V, order_V, limit_V, page_V, total_pages} = VerifyFilterPagination({category, search, orderby, order, limit, page});
+        const {category_V, search_V, orderby_V, order_V, limit_V, page_V, total_pages} = await VerifyFilterPagination({category, search, orderby, order, limit, page});
 
-        const products = await productsModel.findAllByFilterPagination_Products({category_V, search_V},{orderby_V, order_V, limit_V, page_V});
+        console.log(category_V);
+        console.log(search_V);
+        console.log(orderby_V);
+        console.log(order_V);
+        console.log(limit_V);
+        console.log(page_V);
+        console.log(total_pages);
+
+        const filters_V = {category: category_V, search: search_V};
+        const pagination_V = {orderby: orderby_V, order: order_V, limit: limit_V, page: page_V};
+
+        const products = await productsModel.findAllByFilterPagination_Products(filters_V,pagination_V);
         console.log("products.controller.findAllByFilterPagination_Products: Success");
         return res.status(200).json({message:"Success", result: {totalpages: total_pages, products: products}});
 
@@ -190,8 +212,8 @@ const findById_Product = async function (req, res){
 
         if(!product){
 
-            console.log("products.controller.findById_Product: User not found");
-            return res.status(404).json({message:"User not found", result: null});
+            console.log("products.controller.findById_Product: Product not found");
+            return res.status(404).json({message:"Product not found", result: null});
 
         }else{
 
