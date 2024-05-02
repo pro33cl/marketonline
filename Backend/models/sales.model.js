@@ -27,22 +27,22 @@ const findIdCategoryBySale_Sales = async function(sale){
 
 const countPages_Sales = async function(id_seller){
 
+    console.log("sales.model.countPages_Sales: Start");
     const limit = 10;
     const query = `SELECT COUNT(*) FROM products WHERE id_seller = %s`;
     const values = id_seller;
     const formattedQuery = format(query, values);
-    const { rows: countResults } = await pool.query(formattedQuery);
-    total_rows = parseInt(countResults[0].count, 10);
-
-    total_pages = limit > 0 ? Math.ceil(total_rows / limit) : 1;
-
+    const { rows} = await pool.query(formattedQuery);
+    const total_rows = parseInt(rows[0].count, 10);
+    const total_pages = limit > 0 ? Math.ceil(total_rows / limit) : 1;
+    console.log("sales.model.countPages_Sales: Start");
     return total_pages;
 }
 
 // FUNCION - FINDALLBYID_SALES
 const findAllById_Sales = async function(id_seller){
-
-    const query = `SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
+    let query;
+    query = `SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
 	                    FROM products 
 	                    LEFT JOIN category 
 	                    ON products.id_category = category.id
@@ -55,8 +55,14 @@ const findAllById_Sales = async function(id_seller){
 
 // FUNCION - FINDALLBYIDPAGINATION_SALES
 const findAllByIdPagination_Sales = async function(id_seller, pagination_V){
+    
+    console.log("sales.model.findAllByIdPagination_Sales: Start");
 
-    const query = `SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
+    let query
+    let formattedQuery;
+    let values= [];
+
+    query = `SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
                         FROM products 
                         LEFT JOIN category 
                         ON products.id_category = category.id
@@ -64,7 +70,7 @@ const findAllByIdPagination_Sales = async function(id_seller, pagination_V){
 
     const { orderby, order, limit, page} = pagination_V;
     const offset = (page-1)*limit;
-
+    
     values.push(id_seller);
 
     if(limit){
@@ -91,8 +97,8 @@ const findAllByIdPagination_Sales = async function(id_seller, pagination_V){
     }
 
     const { rows } = await pool.query(formattedQuery);
+    console.log("sales.model.findAllByIdPagination_Sales: End");
     return rows;
-
 } 
 
 // FUNCION - FINBYID_SALE
@@ -115,12 +121,14 @@ const create_Sale = async function(){}
 // FUNCION - CREATEBYID_SALE
 const createById_Sale = async function(id_seller, sale){
 
+    console.log("sales.model.createById_Sale: Start");
     const id_category = await findIdCategoryBySale_Sales(sale);
 
     const query = "INSERT INTO products (name, image, description, price, id_category, id_seller) VALUES ('%s', '%s', '%s', %s, %s, %s) RETURNING *";
     const values = [sale.name, sale.image, sale.description, sale.price, id_category, id_seller];
     const formattedQuery = format(query, ...values);
     const {rows} = await pool.query(formattedQuery);
+    console.log("sales.model.createById_Sale: End");
     return rows[0]; 
 } 
 

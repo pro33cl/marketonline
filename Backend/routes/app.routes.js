@@ -26,7 +26,7 @@ router.get("/products/:id", productsController.findById_Product); //lista
 
 router.get("/products/user/data", credentialController.validateToken, usersController.findById_User); //lista
 
-router.get("/products/user/sales", credentialController.validateToken, salesController.findAllByIdPagination_Sales);
+router.get("/products/user/sales", credentialController.validateToken, salesController.findAllByIdPagination_Sales); //lista
 
 // ----------------------------------------------------------
 // POST
@@ -36,7 +36,7 @@ router.post("/products/login/", credentialController.login); //lista
 
 router.post("/products/register/", usersController.create_User); //lista
 
-router.post("/products/user/sales", credentialController.validateToken, salesController.createById_Sale);
+router.post("/products/user/sales", credentialController.validateToken, salesController.createById_Sale); // lista
 
 // ----------------------------------------------------------
 // PUT

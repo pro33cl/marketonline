@@ -32,8 +32,7 @@ const findAllByIdPagination_Sales = async function(req, res){
         const order = "ASC";
         const limit = 10;
 
-        const total_pages = salesModel.countPages_Sales(user_id);
-
+        const total_pages = await salesModel.countPages_Sales(user_id);
         const sales = await salesModel.findAllByIdPagination_Sales(user_id, {orderby, order, limit, page});
 
         console.log("sales.controller.findAllByIdPagination_Sales: Success");

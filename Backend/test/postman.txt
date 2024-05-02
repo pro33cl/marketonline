@@ -73,8 +73,17 @@ header: bearer token
 
 
 {
-GET: http://localhost:3000/products/user/sales
+GET: http://localhost:3000/products/user/sales/?page=1
 
 body:
+header: bearer token
+}
+
+
+{
+POST: http://localhost:3000/products/user/sales/
+
+body: {"name": "Falda Blanca", "image": "falda.jpg", "description": "Una falda muy bonita", "price": 17000, "category": "falda"}
+
 header: bearer token
 }

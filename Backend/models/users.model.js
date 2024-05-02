@@ -53,8 +53,6 @@ const findById_User = async function(id){
     const values = id;
     const formattedQuery = format(query, values);
     const {rows} = await pool.query(formattedQuery);
-    console.log(rows);
-    console.log(rows[0]);
     console.log("users.model.findById_User: End");
     return rows[0];
 } 
