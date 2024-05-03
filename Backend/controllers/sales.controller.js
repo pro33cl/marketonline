@@ -2,6 +2,7 @@
 // IMPORTANDO
 // ----------------------------------------------------------
 
+import { productsModel } from "../models/products.model.js";
 import { salesModel } from "../models/sales.model.js"
 import jwt from "jsonwebtoken";
 
@@ -133,9 +134,24 @@ const updateById_Sale = async function(req, res){
         
         console.log("sales.controller.updateById_Sale: Start");
 
-        const {id_product} = await req.params.id;
-        const {sale} = await req.body;
+        const Authorization = await req.header("Authorization");
+        const token = Authorization.split(" ")[1];
+        const {user_id, user_email} = jwt.decode(token);
+        const {sale_id} = await req.query;
+        const sale = await req.body;
         let newSale;
+
+        const sale_exist = await productsModel.findById_Product(sale_id);
+
+        if(user_id == sale_exist.id_seller){
+
+            console.log("sales.controller.updateById_Sale: Access to modify");
+        }
+        else{
+
+            console.log("sales.controller.updateById_Sale: No access to modify");
+            return res.status(400).json({message:"No access to modify", result: null});
+        }
 
         if(!sale){
 
@@ -147,7 +163,7 @@ const updateById_Sale = async function(req, res){
             newSale = {name: sale.name, image: sale.image, description: sale.description, price: sale.price, category: sale.category};
         }
 
-        const posted = await salesModel.updateById_Sale(id_product, newSale);
+        const posted = await salesModel.updateById_Sale(sale_id, newSale);
 
         if(!posted){
 
@@ -177,8 +193,23 @@ const removeById_Sale = async function(req, res){
 
         console.log("sales.controller.removeById_Sale: Start");
 
-        const sale_id = await req.params.id;
-        const sale_deleted = await salesModel.removeById_Sale(sale_id);
+        const Authorization = await req.header("Authorization");
+        const token = Authorization.split(" ")[1];
+        const {user_id, user_email} = jwt.decode(token);
+        const {sale_id} = await req.query;
+        const sale_exist = await productsModel.findById_Product(sale_id);
+        let sale_deleted;
+
+        if(user_id == sale_exist.id_seller){
+
+            console.log("sales.controller.removeById_Sale: Access to deleted");
+            sale_deleted = await salesModel.removeById_Sale(sale_id);
+        }
+        else{
+
+            console.log("sales.controller.removeById_Sale: No access to deleted");
+            return res.status(400).json({message:"No access to deleted", result: null});
+        }
         
         if(!sale_deleted){
 

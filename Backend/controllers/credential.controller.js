@@ -22,8 +22,6 @@ const login = async function(req, res){
         const {email, password} = req.body;
         const user = await usersModel.findByEmail_User(email);
 
-        console.log(user);
-
         if(!user){
 
             console.log("credential.controller.login: User not found");
@@ -32,8 +30,7 @@ const login = async function(req, res){
         }else{
 
             const isMatch = bcript.compareSync(password, user.password);
-            console.log(isMatch);
-
+    
             if(!isMatch){
 
                 console.log("credential.controller.login: Invalid credentials");

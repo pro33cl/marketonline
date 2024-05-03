@@ -87,3 +87,19 @@ body: {"name": "Falda Blanca", "image": "falda.jpg", "description": "Una falda m
 
 header: bearer token
 }
+
+{
+PUT: http://localhost:3000/products/user/sales/?sale_id=1
+
+body: {"name": "Falda Blanca", "image": "falda.jpg", "description": "Una falda muy bonita", "price": 17000, "category": "falda"}
+
+header: bearer token
+}
+
+{
+PUT: http://localhost:3000/products/user/sales/?sale_id=1
+
+body:
+
+header: bearer token
+}

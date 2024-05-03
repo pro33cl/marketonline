@@ -104,6 +104,7 @@ const findAllByIdPagination_Sales = async function(id_seller, pagination_V){
 // FUNCION - FINBYID_SALE
 const findById_Sale = async function(id){
 
+    console.log("sales.model.findById_Sale: Start");
     const query = `SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
                     FROM products 
                     LEFT JOIN category 
@@ -113,6 +114,7 @@ const findById_Sale = async function(id){
     const values = id;
     const formattedQuery = format(query, values);
     const {rows} = await pool.query(formattedQuery);
+    console.log("sales.model.findById_Sale: Start");
     return rows[0];
 } 
 
@@ -136,6 +138,7 @@ const createById_Sale = async function(id_seller, sale){
 // FUNCION - UPDATEBYID_SALE
 const updateById_Sale = async function(id, sale){
 
+    console.log("sales.model.updateById_Sale: Star");
     let query;
     let formattedQuery;
 
@@ -143,6 +146,7 @@ const updateById_Sale = async function(id, sale){
 
     if(sale.name && sale.name != undefined && isNaN(sale.name)){
 
+        console.log("sales.model.updateById_Sale: Updating name");
         query = `UPDATE products SET name = '%s' WHERE id = %s`;
         formattedQuery = format(query, sale.name, id);
         let {rows} = await pool.query(formattedQuery);
@@ -150,6 +154,7 @@ const updateById_Sale = async function(id, sale){
 
     if(sale.image && sale.image != undefined && isNaN(sale.image)){
 
+        console.log("sales.model.updateById_Sale: Updating image");
         query = `UPDATE products SET image = '%s' WHERE id = %s`;
         formattedQuery = format(query, sale.image, id);
         let {rows} = await pool.query(formattedQuery);
@@ -157,6 +162,7 @@ const updateById_Sale = async function(id, sale){
 
     if(sale.description && sale.description != undefined && isNaN(sale.description)){
 
+        console.log("sales.model.updateById_Sale: Updating description");
         query = `UPDATE products SET description = '%s' WHERE id = %s`;
         formattedQuery = format(query, sale.description, id);
         let {rows} = await pool.query(formattedQuery);
@@ -164,6 +170,7 @@ const updateById_Sale = async function(id, sale){
 
     if(sale.price && sale.price != undefined && !isNaN(sale.price)){
 
+        console.log("sales.model.updateById_Sale: Updating price");
         query = `UPDATE products SET price = '%s' WHERE id = %s`;
         formattedQuery = format(query, sale.price, id);
         let {rows} = await pool.query(formattedQuery);
@@ -171,21 +178,25 @@ const updateById_Sale = async function(id, sale){
 
     if(id_category && id_category != undefined && !isNaN(id_category)){
 
+        console.log("sales.model.updateById_Sale: Updating id_category");
         query = `UPDATE products SET id_category = %s WHERE id = %s`;
         formattedQuery = format(query, id_category, id);
         let {rows} = await pool.query(formattedQuery);
     }
 
     const response = await findById_Sale(Number(id));
+    console.log("sales.model.updateById_Sale: End");
     return response;
 }
 
 // FUNCION - REMOVEBYID_SALE
 const removeById_Sale = async function(id){
 
+    console.log("sales.model.removeById_Sale: Start");
     const query = "DELETE FROM products WHERE id = %s RETURNING *";
     const formattedQuery = format(query, Number(id));
     const {rows} = await pool.query(formattedQuery);
+    console.log("sales.model.removeById_Sale: End");
     return rows[0];
 }
 

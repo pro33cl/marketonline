@@ -44,13 +44,13 @@ router.post("/products/user/sales", credentialController.validateToken, salesCon
 
 router.put("/products/user/data", credentialController.validateToken, usersController.updateById_User); //lista
 
-router.put("/products/user/sales", credentialController.validateToken, salesController.updateById_Sale);
+router.put("/products/user/sales", credentialController.validateToken, salesController.updateById_Sale); //lista
 
 // ----------------------------------------------------------
 // DELETE
 // ----------------------------------------------------------
 
-router.delete("/products/user/sales", credentialController.validateToken, salesController.removeById_Sale);
+router.delete("/products/user/sales", credentialController.validateToken, salesController.removeById_Sale); //lista
 
 // ----------------------------------------------------------
 // EXPORTANDO
