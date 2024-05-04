@@ -7,6 +7,7 @@ import {productsController} from "../controllers/products.controller.js";
 import {salesController} from "../controllers/sales.controller.js";
 import {credentialController} from "../controllers/credential.controller.js";
 import {Router} from "express";
+import { imageController } from "../controllers/image.controller.js";
 
 // ----------------------------------------------------------
 // DECLARACION DE VARIABLES
@@ -28,6 +29,8 @@ router.get("/products/user/data", credentialController.validateToken, usersContr
 
 router.get("/products/user/sales", credentialController.validateToken, salesController.findAllByIdPagination_Sales); //lista
 
+router.get("/productimage/:id", imageController.getById_Image);
+
 // ----------------------------------------------------------
 // POST
 // ----------------------------------------------------------
@@ -37,6 +40,8 @@ router.post("/products/login/", credentialController.login); //lista
 router.post("/products/register/", usersController.create_User); //lista
 
 router.post("/products/user/sales", credentialController.validateToken, salesController.createById_Sale); // lista
+
+router.post("/productimage/:id", credentialController.validateToken, imageController.autorization_Image, imageController.upload.single('file'), imageController.post_Image );
 
 // ----------------------------------------------------------
 // PUT

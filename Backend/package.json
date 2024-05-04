@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "dev": "nodemon index.js 3001",
     "start": "node index.js",
@@ -20,6 +20,7 @@
     "express": "^4.19.2",
     "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.0",
     "pg": "^8.11.5",
     "pg-format": "^1.0.4",

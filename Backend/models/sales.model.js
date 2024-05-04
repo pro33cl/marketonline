@@ -141,8 +141,15 @@ const updateById_Sale = async function(id, sale){
     console.log("sales.model.updateById_Sale: Star");
     let query;
     let formattedQuery;
+    let id_category
 
-    const id_category = await findIdCategoryBySale_Sales(sale);
+    if(sale.category){
+
+        id_category = await findIdCategoryBySale_Sales(sale);
+    }else{
+
+        id_category = sale.id_category;
+    }
 
     if(sale.name && sale.name != undefined && isNaN(sale.name)){
 
