@@ -30,25 +30,28 @@ const VerifyFilterPagination = async function (data){
 
         // Verificando category
         console.log("products.controller.VerifyFilterPagination: Verifying category");
-        if(category){
+        if(category && category != "" && category != undefined){
 
             if(isNaN(category)){
                 console.log("category: "+category);
                 console.log("products.controller.VerifyFilterPagination: Verifying category isNaN");
                 let index_category = null;
-                console.log("Antes del forEach");
+
                 categories.forEach((element,i)=>{
-                    console.log("Entrando al forEach");
                     if(element.name == category){
                         index_category=i;
                     }
                 });
 
-                if(index_category){
+                console.log("index :"+index_category);
+                
+
+                if(!isNaN(index_category)){
                     category_V = categories[index_category].name;
                 }else{
                     category_V = null;
                 }
+                console.log("category_V :"+category_V);
             }   
             else{
 
@@ -62,7 +65,7 @@ const VerifyFilterPagination = async function (data){
 
         // Verificando search
         console.log("products.controller.VerifyFilterPagination: Verifying search");
-        if(search){
+        if(search && search != "" && search != undefined){
 
             if(isNaN(search)){
 
@@ -166,6 +169,7 @@ const VerifyFilterPagination = async function (data){
 
 
 
+
 // FUNCION - FINDALLBYFILTERPAGINATION_PRODUCTS
 const findAllByFilterPagination_Products = async function (req, res){
 
@@ -173,6 +177,14 @@ const findAllByFilterPagination_Products = async function (req, res){
 
         console.log("products.controller.findAllByFilterPagination_Products: Start");
         const {category, search, orderby, order, limit, page} = await req.query;
+
+        console.log(category);
+        console.log(search);
+        console.log(orderby);
+        console.log(order);
+        console.log(limit);
+        console.log(page);
+
         const {category_V, search_V, orderby_V, order_V, limit_V, page_V, total_pages} = await VerifyFilterPagination({category, search, orderby, order, limit, page});
 
         console.log(category_V);

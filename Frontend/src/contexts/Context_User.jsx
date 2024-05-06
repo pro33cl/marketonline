@@ -51,9 +51,17 @@ const Context_User_Provider = ({children}) =>{
         
         const configuration= { 
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify(userPost)
         };
-        const resp = await fetch(`${urlServer}/users`,configuration);
+
+        const urlApi =`${urlServer}/products/register/`;
+        console.log(urlApi);
+
+        const resp = await fetch(urlApi,configuration);
         const user_post = await resp.json();
         return user_post;
 
@@ -125,6 +133,7 @@ const Context_User_Provider = ({children}) =>{
     }
 
     const handlerUserPost = async function(userPost){
+        console.log(userPost);
         const userPost_actual = await ApiUserPost(userPost);
         const userPost_actual_copy = JSON.parse(JSON.stringify(userPost_actual));
         SetUser(userPost_actual_copy);

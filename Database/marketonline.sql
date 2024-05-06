@@ -17,6 +17,7 @@ CREATE TABLE products(
 	id SERIAL,
 	name VARCHAR(50),
 	image VARCHAR(50),
+	image_name VARCHAR(100),
 	description VARCHAR(255),
 	price REAL,
 	id_category INTEGER,

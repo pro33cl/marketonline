@@ -52,6 +52,7 @@ const create_User = async function(req, res){
 
         console.log("users.controller.create_User: Start");
         const user = await req.body;
+        console.log(user);
         let newUser;
 
         if(!user){

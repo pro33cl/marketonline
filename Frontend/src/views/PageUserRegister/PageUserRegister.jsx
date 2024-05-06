@@ -37,9 +37,11 @@ function PageUserRegister() {
   
     const handlerSubmit = function (e) {
       e.preventDefault();
+      console.log(userFormRegister.password1);
+      console.log(userFormRegister.password2);
       if(userFormRegister.password1 == userFormRegister.password2){
         
-        const userPost = { id:6, email: userFormRegister.email, name: userFormRegister.name, lastname: userFormRegister.lastname, phone: userFormRegister.phone, age: userFormRegister.age, password:userFormRegister.password1 };
+        const userPost = { email: userFormRegister.email, name: userFormRegister.name, lastname: userFormRegister.lastname, age: userFormRegister.age, phone: userFormRegister.phone,  password:userFormRegister.password1 };
         handlerUserPost(userPost);
         SetMessage("Usuario Creado con Éxito");
         SetUserFormRegister(userFormRegister_init);
@@ -48,10 +50,6 @@ function PageUserRegister() {
 
         SetMessage("Las Contraseñas no coinciden");
       }
-
-
-
-      
     }
 
   return (

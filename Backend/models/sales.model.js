@@ -25,6 +25,7 @@ const findIdCategoryBySale_Sales = async function(sale){
     return rows[0].id;
 }
 
+
 const countPages_Sales = async function(id_seller){
 
     console.log("sales.model.countPages_Sales: Start");
@@ -42,7 +43,7 @@ const countPages_Sales = async function(id_seller){
 // FUNCION - FINDALLBYID_SALES
 const findAllById_Sales = async function(id_seller){
     let query;
-    query = `SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
+    query = `SELECT products.id, products.name, products.image, products.image_name, products.description, products.price, category.name AS category
 	                    FROM products 
 	                    LEFT JOIN category 
 	                    ON products.id_category = category.id
@@ -62,7 +63,7 @@ const findAllByIdPagination_Sales = async function(id_seller, pagination_V){
     let formattedQuery;
     let values= [];
 
-    query = `SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
+    query = `SELECT products.id, products.name, products.image, products.image_name, products.description, products.price, category.name AS category
                         FROM products 
                         LEFT JOIN category 
                         ON products.id_category = category.id
@@ -105,7 +106,7 @@ const findAllByIdPagination_Sales = async function(id_seller, pagination_V){
 const findById_Sale = async function(id){
 
     console.log("sales.model.findById_Sale: Start");
-    const query = `SELECT products.id, products.name, products.image, products.description, products.price, category.name AS category
+    const query = `SELECT products.id, products.name, products.image, products.image_name, products.description, products.price, category.name AS category
                     FROM products 
                     LEFT JOIN category 
                     ON products.id_category = category.id
@@ -126,8 +127,9 @@ const createById_Sale = async function(id_seller, sale){
     console.log("sales.model.createById_Sale: Start");
     const id_category = await findIdCategoryBySale_Sales(sale);
 
-    const query = "INSERT INTO products (name, image, description, price, id_category, id_seller) VALUES ('%s', '%s', '%s', %s, %s, %s) RETURNING *";
-    const values = [sale.name, sale.image, sale.description, sale.price, id_category, id_seller];
+    console.log(sale);
+    const query = "INSERT INTO products (name, image, image_name, description, price, id_category, id_seller) VALUES ('%s', '%s', '%s', '%s', %s, %s, %s) RETURNING *";
+    const values = [sale.name, sale.image, sale.image_name, sale.description, sale.price, id_category, id_seller];
     const formattedQuery = format(query, ...values);
     const {rows} = await pool.query(formattedQuery);
     console.log("sales.model.createById_Sale: End");
@@ -164,6 +166,14 @@ const updateById_Sale = async function(id, sale){
         console.log("sales.model.updateById_Sale: Updating image");
         query = `UPDATE products SET image = '%s' WHERE id = %s`;
         formattedQuery = format(query, sale.image, id);
+        let {rows} = await pool.query(formattedQuery);
+    }
+
+    if(sale.image_name && sale.image_name != undefined && isNaN(sale.image_name)){
+
+        console.log("sales.model.updateById_Sale: Updating image_name");
+        query = `UPDATE products SET image_name = '%s' WHERE id = %s`;
+        formattedQuery = format(query, sale.image_name, id);
         let {rows} = await pool.query(formattedQuery);
     }
 

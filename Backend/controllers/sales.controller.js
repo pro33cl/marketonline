@@ -17,6 +17,7 @@ const findAllById_Sales = async function(req, res){
 
 }
 
+
 // FUNCION - FINDALLBYIDPAGINATION_SALES
 const findAllByIdPagination_Sales = async function(req, res){
 
@@ -83,6 +84,8 @@ const findById_Sale = async function(req, res){
 
 }
 
+
+
 // FUNCION - CREATEBYID_SALE
 const createById_Sale = async function(req, res){
 
@@ -102,14 +105,14 @@ const createById_Sale = async function(req, res){
             console.log("sales.controller.createById_Sale: Post is required");
             return res.status(400).json({message:"Post is required", result: null});
         }
-        else if(!sale.name || !sale.image || !sale.description || !sale.price || !sale.category){
+        else if(!sale.name || !sale.image || !sale.image_name || !sale.description || !sale.price || !sale.category){
 
             console.log("sales.controller.createById_Sale: Post data is required");
             return res.status(400).json({message:"Post data is required", result: null});
         }
         else{
 
-            newSale = {name: sale.name, image: sale.image, description: sale.description, price: sale.price, category: sale.category};
+            newSale = {name: sale.name, image: sale.image, image_name: sale.image_name, description: sale.description, price: sale.price, category: sale.category};
         }
 
         const posted = await salesModel.createById_Sale(user_id, newSale);
@@ -160,7 +163,7 @@ const updateById_Sale = async function(req, res){
         }
         else{
 
-            newSale = {name: sale.name, image: sale.image, description: sale.description, price: sale.price, category: sale.category};
+            newSale = {name: sale.name, image: sale.image, image_name: sale.image_name, description: sale.description, price: sale.price, category: sale.category};
         }
 
         const posted = await salesModel.updateById_Sale(sale_id, newSale);

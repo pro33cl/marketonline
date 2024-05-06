@@ -6,7 +6,7 @@ import { Context_Products } from '../../contexts/Context_Products.jsx';
 
 function PageDetailProduct() {
 
-  const {matrixProducts} = useContext(Context_Products);
+  const {matrixProducts, matrixImagesProducts, pagination, SetPagination, totalPages, SetTotalPages} = useContext(Context_Products);
   console.log(matrixProducts);
 
   const {id} = useParams();

@@ -8,14 +8,14 @@ import '../PageHome/PageHome.css';
 function PageHome() {
 
  
-  const {matrixProducts} = useContext(Context_Products);
+  const {matrixProducts, matrixImagesProducts, pagination, SetPagination, totalPages, SetTotalPages} = useContext(Context_Products);
 
   console.log(matrixProducts);
   
   return (
     <div className='pagehome-body'>
       <div className='image-home'></div>
-      <Gallery products_matrix={matrixProducts}></Gallery>
+      <Gallery products_matrix={matrixProducts} images_matrix={matrixImagesProducts}></Gallery>
     </div>
   )
 }

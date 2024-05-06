@@ -6,13 +6,10 @@ import "dotenv/config";
 import jwt from "jsonwebtoken";
 import { imageModel } from "../models/image.model.js";
 import { productsModel } from "../models/products.model.js";
-import express from 'express';
-
 import multer from 'multer';
 import {dirname, extname, join} from 'path';
 import {fileURLToPath} from 'url';
 import { salesModel } from "../models/sales.model.js";
-
 
 // ----------------------------------------------------------
 // DECLARACIÓN VARIABLES
@@ -21,6 +18,8 @@ import { salesModel } from "../models/sales.model.js";
 const CURRENT_DIR = dirname(fileURLToPath(import.meta.url));
 const FILETYPES = ['image/jpeg','image/png','image/jpg'];
 
+const SERVER = process.env.SERVER || "http://localhost:";
+const PORT = process.env.PORT || 3000;
 
 // ----------------------------------------------------------
 // FUNCIONES
@@ -64,10 +63,11 @@ const getById_Image = async function(req, res){
         const product_id = await req.params.id;
         const sale_exist = await productsModel.findById_Product(product_id);
 
+        const image_name = sale_exist.image_name;
+
         if(sale_exist){
 
-            const path_image = `../uploads/${sale_exist.image}`  
-            const path = join(CURRENT_DIR, path_image);
+            const path = join(CURRENT_DIR, `../uploads/${image_name}`);
             console.log("image.controller.getById_Image: Success");
             return res.status(200).sendFile(path);
 
@@ -131,10 +131,15 @@ const post_Image = async function(req, res){
         let sale_exist;
         let sale_updated;
 
+        console.log(file);
+
         if(file){
 
             sale_exist = await productsModel.findById_Product(sale_id);
-            sale_exist.image = file.filename;
+            const image_name = file.filename;
+            const image_url = `${SERVER}${PORT}/productimage/${sale_id}`;
+            sale_exist.image_name = image_name;
+            sale_exist.image = image_url;
             sale_updated = await salesModel.updateById_Sale(sale_id, sale_exist);
             console.log("image.controller.create_Image: Posted");
             return res.status(201).json({message:"Posted", result: sale_updated});

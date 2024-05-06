@@ -10,7 +10,7 @@ import '../Gallery/Gallery.css';
 function Gallery(props) {
 
     const type_card = "gallery_card";
-    const {products_matrix} = props;
+    const {products_matrix, matrixImagesProducts} = props;
 
   return (
     <div className='container-cards'>
@@ -18,7 +18,7 @@ function Gallery(props) {
             products_matrix.map((product)=>{
               return (
                       <div key={product.id}>
-                        <Card type_card={type_card} product={product}></Card>
+                        <Card type_card={type_card} product={product} ></Card>
                       </div>
                       );
             })           
