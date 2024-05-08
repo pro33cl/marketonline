@@ -102,6 +102,7 @@ const updateById_User = async function(req, res){
 
         console.log("users.controller.updatedById_User: Start");
         const Authorization = await req.header("Authorization");
+        console.log("Mostrando la Authorization :"+Authorization);
         const token = Authorization.split(" ")[1];
         const {user_id, user_email} = jwt.decode(token);
         console.log("user_id :"+user_id);
@@ -110,6 +111,8 @@ const updateById_User = async function(req, res){
 
         console.log(user);
 
+        console.log(user.password);
+
         if(!user){
 
             console.log("users.controller.updatedById_User: Post is required");
@@ -117,7 +120,15 @@ const updateById_User = async function(req, res){
         }
         else{
 
-            newUser = {email: user.email, name: user.name, lastname: user.lastname, age: user.age, phone: user.phone, password: bcript.hashSync(user.password,10)};
+            if(user.password || user.password != null || user.password != undefined ){
+
+                newUser = {email: user.email, name: user.name, lastname: user.lastname, age: user.age, phone: user.phone, password: bcript.hashSync(user.password,10)};
+
+            }else{
+
+                console.log("entró acá");
+                newUser = {email: user.email, name: user.name, lastname: user.lastname, age: user.age, phone: user.phone};
+            }   
         }
 
         const posted = await usersModel.updateById_User(user_id, newUser);

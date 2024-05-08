@@ -117,7 +117,7 @@ const updateById_User = async function(id, user){
         let {rows} = await pool.query(formattedQuery);
     }
     
-    if(user.password && user.password != undefined && isNaN(user.password)){
+    if(user.password && user.password != undefined && isNaN(user.password) && user.password != null){
 
         console.log("users.model.updateById_User: Updating password");
         query = `UPDATE users SET password = '%s' WHERE id = %s`;

@@ -28,12 +28,11 @@ function FormUserPassword(props) {
         let new_password;
         if(newPassword.password1 == newPassword.password2){
             new_password = newPassword.password1;
-            let user_actual = JSON.parse(JSON.stringify(user)); 
-            user_actual.password = new_password;
-            handlerUserPut(user_actual.id,user_actual);
+            const user_actual = {password: new_password};
+            handlerUserPut(user_actual);
             SetEdit(false);
-            SetMessage("Clave exitosa!")
-            SetUser({...user,password:new_password});
+            SetMessage("Clave exitosa!");
+            console.log(user);
         }
         else{
             SetMessage("Claves no coinciden")
@@ -52,10 +51,6 @@ function FormUserPassword(props) {
             <Form style={{ width: "100%", padding: "1rem" }} onSubmit={handlerSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Text className="text-muted">Cambio Contraseña</Form.Text>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                <Form.Label>Contraseña Actual</Form.Label>
-                <Form.Control type="password" name='password' placeholder={user.password} className='mt-3' value={user.password} disabled/>
                 </Form.Group>
                 <Form.Group className="mb-3">
                 <Form.Label>Contraseña Nueva</Form.Label>

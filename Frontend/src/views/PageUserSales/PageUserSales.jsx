@@ -22,17 +22,23 @@ function PageUserSales() {
 
   const {
     user,
-    SetUser,
+    SetUser, 
     userSales,
-    SetUserSales,
-    handlerUserGet,
+    SetUserSales, 
+    handlerUserGet, 
     handlerUserPut,
     handlerUserPost,
     handlerUserSalesGet,
     handlerUserSalePost,
     handlerUserSalePut,
     handlerUserSaleDelete,
-    FindIndexById } = receiving;
+    FindIndexById,
+    handlerUserLogin,
+    handlerRefreshAccess,
+    accessLogin,
+    SetAccessLogin
+  
+  } = receiving;
 
   const userFormSale_init = { id: null, name: "", description: "", image: "", price: 0, category: "" }
   const [edit, SetEdit] = useState(false);

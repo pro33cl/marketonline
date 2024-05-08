@@ -62,7 +62,9 @@ const validateToken = async function (req, res, next){
 
         console.log("credential.controller.validateToken: Start");
         const Authorization = await req.header("Authorization");
+        console.log(Authorization)
         const token = Authorization.split(" ")[1];
+        console.log(token);
         const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
        
         if(verifyToken){

@@ -10,14 +10,35 @@ import FormUserPassword from '../../components/UserParts/FormUserPassword/FormUs
 
 function PageUserData() {
 
+
+  const receiving = useContext(Context_User);
+
+  const {
+    user,
+    SetUser, 
+    userSales,
+    SetUserSales, 
+    handlerUserGet, 
+    handlerUserPut,
+    handlerUserPost,
+    handlerUserSalesGet,
+    handlerUserSalePost,
+    handlerUserSalePut,
+    handlerUserSaleDelete,
+    FindIndexById,
+    handlerUserLogin,
+    handlerRefreshAccess,
+    accessLogin,
+    SetAccessLogin
+  
+  } = receiving;
+
+
   useEffect(()=>{
 
-    handlerUserGet(1);
+    console.log(user);
 
-  },[]);
-
-  const {user,SetUser, userProducts, handlerUserGet, handlerUserPut} = useContext(Context_User);
-
+  },[user]);
 
   return (
     <div className='page'>
@@ -27,12 +48,6 @@ function PageUserData() {
       <div className='body'>
         <FormUserData user={user} SetUser={SetUser} handlerUserPut={handlerUserPut}></FormUserData>
         <FormUserPassword user={user} SetUser={SetUser} handlerUserPut={handlerUserPut}></FormUserPassword>
-
-
-
-
-
-
       </div>
     </div>
   )

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useEffect} from "react";
 
 
 function FormUserData(props) {
@@ -10,20 +11,29 @@ function FormUserData(props) {
     const [edit, SetEdit] = useState(false);
     
 
+    useEffect(()=>{
+
+        console.log(user);
+    
+    },[user]);
+
+
     const handlerEdit = function(e){
         SetEdit(true);
     }
 
     const handlerChange = function(e){
         SetUser({...user,[e.target.name]:e.target.value});
-        console.log(user);
     }
 
     const handlerSubmit = function(e){
         e.preventDefault();
+        console.log("user antes de handlerUserPut al principio de handlerSubmit");
         console.log(user);
-        handlerUserPut(user.id,user);
+        handlerUserPut(user);
         SetEdit(false);
+        console.log("user despues de handlerUserPut al final de handlerSubmit");
+        console.log(user);
     }
 
 
