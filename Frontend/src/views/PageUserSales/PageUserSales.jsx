@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import CloseButton from 'react-bootstrap/CloseButton';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -15,7 +14,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function PageUserSales() {
 
   useEffect(() => {
-    handlerUserSalesGet();
+    
+    console.log(userSales);
+
   }, []);
 
   const receiving = useContext(Context_User);
@@ -47,10 +48,7 @@ function PageUserSales() {
   const [userFormSale, SetUserFormSale] = useState(userFormSale_init);
   const [message, SetMessage] = useState("");
 
-  console.log(userSales);
-
-
-
+  
   const handlerEdit = function (id) {
 
     SetEdit(true);
@@ -89,11 +87,18 @@ function PageUserSales() {
 
   const handlerSubmit = function (e) {
     e.preventDefault();
+    console.log(e);
+    const formDataImage = new FormData();
+    formDataImage.append("file",e.target[1].value);
+    console.log(formDataImage);
+    console.log(userFormSale);
+
+
     if (edit == true) {
       handlerUserSalePut(userFormSale.id, userFormSale);
       console.log(userSales);
     } else if (add == true) {
-      handlerUserSalePost(userFormSale);
+      handlerUserSalePost(userFormSale, formDataImage);
     }
     console.log(userFormSale);
     console.log(userSales);
@@ -120,8 +125,8 @@ function PageUserSales() {
               {enabled == true ? <Form.Control size='sm' className="mt-0" type="text" name='name' placeholder={userFormSale.name} value={userFormSale.name} onChange={handlerChange} />:<Form.Control size='sm' className="mt-0" type="text" name='name' placeholder={userFormSale.name} value={userFormSale.name} onChange={handlerChange} disabled/>}
             </Form.Group>
             <Form.Group className="mb-1">
-              <Form.Label className="mb-0">Archivo Imagen</Form.Label>
-              {enabled == true ? <Form.Control size='sm' className="mt-0" type="text" name='image' placeholder={userFormSale.image} value={userFormSale.image} onChange={handlerChange} />:<Form.Control size='sm' className="mt-0" type="text" name='image' placeholder={userFormSale.image} value={userFormSale.image} onChange={handlerChange} disabled/>}
+              <Form.Label className="mb-0">Cargar Imagen</Form.Label>
+              {enabled == true ? <Form.Control size='sm' className="mt-0" type="file" name='image'/>:<Form.Control size='sm' className="mt-0" type="file" name='image' disabled/>}
             </Form.Group>
             <Form.Group className="mb-1">
               <Form.Label className="mb-0">Precio</Form.Label>
@@ -129,17 +134,23 @@ function PageUserSales() {
             </Form.Group>
             <Form.Group className="mb-1">
             {enabled == true ?
-              <Form.Select aria-label="Default select example">
+              <Form.Select onChange={handlerChange} name='category' aria-label="Default select example">
                 <option>Categoría</option>
-                <option value="0">Hombre</option>
-                <option value="1">Mujer</option>
-                <option value="2">Niños</option>
+                <option value="pantalon">Pantalón</option>
+                <option value="falda">Falda</option>
+                <option value="camisa">Camisa</option>
+                <option value="blusa">Blusa</option>
+                <option value="zapatos">Zapatos</option>
+                <option value="zapatillas">Zapatillas</option>
               </Form.Select>:
-              <Form.Select aria-label="Default select example" disabled>
+              <Form.Select onChange={handlerChange} name='category' aria-label="Default select example" disabled>
                 <option>Categoría</option>
-                <option value="0">Hombre</option>
-                <option value="1">Mujer</option>
-                <option value="2">Niños</option>
+                <option value="pantalon">Pantalón</option>
+                <option value="falda">Falda</option>
+                <option value="camisa">Camisa</option>
+                <option value="blusa">Blusa</option>
+                <option value="zapatos">Zapatos</option>
+                <option value="zapatillas">Zapatillas</option>
               </Form.Select>
             }
             </Form.Group>

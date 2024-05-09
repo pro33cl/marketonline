@@ -35,17 +35,41 @@ function PageUserRegister() {
       console.log(userFormRegister);
     }
   
-    const handlerSubmit = function (e) {
+    const handlerSubmit = async function (e) {
       e.preventDefault();
-      console.log(userFormRegister.password1);
-      console.log(userFormRegister.password2);
+
       if(userFormRegister.password1 == userFormRegister.password2){
         
         const userPost = { email: userFormRegister.email, name: userFormRegister.name, lastname: userFormRegister.lastname, age: userFormRegister.age, phone: userFormRegister.phone,  password:userFormRegister.password1 };
-        handlerUserPost(userPost);
-        SetMessage("Usuario Creado con Éxito");
-        SetUserFormRegister(userFormRegister_init);
-        navigate("/products/login");
+        
+        if( (userPost.email == "" || userPost.email == undefined) || 
+            (userPost.name == "" || userPost.name == undefined) || 
+            (userPost.lastname == "" || userPost.lastname == undefined) || 
+            (userPost.age == "" || userPost.age == undefined) || 
+            (userPost.phone == "" || userPost.phone == undefined) || 
+            (userPost.password == "" || userPost.password == undefined)){
+
+          SetMessage("Faltan Datos");
+
+        }else{
+
+          const userPost_resp = await handlerUserPost(userPost);
+
+          console.log(userPost_resp);
+        
+          if( userPost_resp.message == 'Posted' && userPost_resp.status == 201 && userPost_resp.result){
+
+            SetMessage("Usuario Creado con Éxito");
+            SetUserFormRegister(userFormRegister_init);
+            navigate("/products/login");
+
+          }else{
+
+            SetMessage("Email ya existe o debes corregir algún dato");
+          }
+
+        }
+
       }else{
 
         SetMessage("Las Contraseñas no coinciden");

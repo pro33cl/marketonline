@@ -23,9 +23,16 @@ function FormLogin(props) {
         e.preventDefault();
         const email = e.target[0].value;
         const password = e.target[1].value;
-        const {respToken, respMessage, respStatus, respLogin} = await handlerUserLogin(email, password);
-        console.log(respLogin);
-        handlerLogin(respLogin);
+        const respAccess = await handlerUserLogin(email, password);
+
+        if(respAccess.status == 200 && respAccess.result && respAccess.message == 'Login successfully'){
+
+            handlerLogin(respAccess.result.login);
+
+        }else{
+
+            SetMessage("Email o Contraseña incorrectas");
+        }
     }
 
     const handlerLogin = function(respLogin){
@@ -34,11 +41,7 @@ function FormLogin(props) {
 
             navigate("/products/user/data");
             SetMessage("Ingresando...");
-
-        } else {
-
-            SetMessage("Email o contraseña incorrectas");
-        }
+        } 
     }
 
     const handlerRegister = function(){
