@@ -147,7 +147,7 @@ const post_Image = async function(req, res){
         }else{
 
             console.log("image.controller.create_Image: Not posted");
-            return res.status(201).json({message:"Not posted", result: file});
+            return res.status(400).json({message:"Not posted", result: file});
         }
 
     } catch (error) {

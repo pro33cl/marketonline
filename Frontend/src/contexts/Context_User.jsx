@@ -362,6 +362,8 @@ const Context_User_Provider = ({children}) =>{
                     userSales_actual.push(userSalePostJson_copy);
                     handlerRefreshUserSales(userSales_actual);
 
+                    return {message: 'Posted', result: userSaleImagePost_resp.result , status: 201};
+
                 }else{
 
                     return {message: userSaleImagePost_resp.message, result: userSaleImagePost_resp.result , status: userSaleImagePost_resp.status};

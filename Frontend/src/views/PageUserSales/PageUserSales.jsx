@@ -85,27 +85,58 @@ function PageUserSales() {
     console.log(userFormSale);
   }
 
-  const handlerSubmit = function (e) {
+  const handlerSubmit = async function (e) {
     e.preventDefault();
+    let userSales_res
     console.log(e);
-    const formDataImage = new FormData();
-    formDataImage.append("file",e.target[1].value);
-    console.log(formDataImage);
-    console.log(userFormSale);
-
+    console.log(e.target[1].value);
+    const formSale = document.querySelector("#formSale");
+    console.log(formSale);
+    const formData = new FormData(formSale);
+    console.log(formData.get('file'));
 
     if (edit == true) {
-      handlerUserSalePut(userFormSale.id, userFormSale);
-      console.log(userSales);
+
+      const userSalePut_resp = await handlerUserSalePut(userFormSale.id, userFormSale, formData);
+      
+      if(userSalePut_resp.message == 'Posted' && userSalePut_resp.status == 201 && userSalePut_resp.result){
+
+        console.log(userFormSale);
+        console.log(userSales);
+        userSales_res = await handlerUserSalesGet();
+        SetUserFormSale(userFormSale_init);
+        SetEdit(false);
+        SetAdd(false);
+        SetEnabled(false);
+        SetMessage("Datos Cargados con éxito");
+
+      }else{
+
+        SetMessage("Error al cargar datos");
+      }
+
     } else if (add == true) {
-      handlerUserSalePost(userFormSale, formDataImage);
+
+      const userSalePost_resp = await handlerUserSalePost(userFormSale, formData);
+
+      console.log(userSalePost_resp);
+      
+      if(userSalePost_resp.message == 'Posted' && userSalePost_resp.status == 201 && userSalePost_resp.result){
+
+        console.log(userFormSale);
+        console.log(userSales);
+        userSales_res = await handlerUserSalesGet();
+        SetUserFormSale(userFormSale_init);
+        SetEdit(false);
+        SetAdd(false);
+        SetEnabled(false);
+        SetMessage("Datos Cargados con éxito");
+
+      }else{
+
+        SetMessage("Error al cargar datos");
+      }
     }
-    console.log(userFormSale);
-    console.log(userSales);
-    SetUserFormSale(userFormSale_init);
-    SetEdit(false);
-    SetAdd(false);
-    SetEnabled(false);
   }
 
 
@@ -116,7 +147,7 @@ function PageUserSales() {
       </div>
       <div className='body'>
         <div className='form'>
-          <Form style={{ width: "100%", padding: "1rem" }} onSubmit={handlerSubmit}>
+          <Form id='formSale'  style={{ width: "100%", padding: "1rem" }} onSubmit={handlerSubmit}>
             <Form.Group  className="mb-2">
               <Form.Label className="mb-0">Formulario Venta</Form.Label>
             </Form.Group>
@@ -126,7 +157,7 @@ function PageUserSales() {
             </Form.Group>
             <Form.Group className="mb-1">
               <Form.Label className="mb-0">Cargar Imagen</Form.Label>
-              {enabled == true ? <Form.Control size='sm' className="mt-0" type="file" name='image'/>:<Form.Control size='sm' className="mt-0" type="file" name='image' disabled/>}
+              {enabled == true ? <Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChange} />:<Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChange} disabled/>}
             </Form.Group>
             <Form.Group className="mb-1">
               <Form.Label className="mb-0">Precio</Form.Label>
@@ -161,6 +192,7 @@ function PageUserSales() {
             {enabled == true ? <Button variant="primary" onClick={() => { handlerAdd()}} disabled >Nuevo</Button>:<Button variant="primary" onClick={() => { handlerAdd()}}>Nuevo</Button>}
             {enabled == true ? <Button variant="primary" onClick={() => { handlerCancel()}}>Cancelar</Button>:<Button variant="primary" onClick={() => { handlerCancel()}} disabled >Cancelar</Button>}
             {enabled == true ? <Button  variant="primary" type="submit">Guardar</Button>:<Button  variant="primary" type="submit"disabled>Guardar</Button>}
+            <Form.Label className="mb-0">{message}</Form.Label>
           </Form>
 
         </div>
