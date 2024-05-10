@@ -37,7 +37,9 @@ function PageUserSales() {
     handlerUserLogin,
     handlerRefreshAccess,
     accessLogin,
-    SetAccessLogin
+    SetAccessLogin,
+    totalPagesUserSales,
+    SetTotalPagesUserSales
   
   } = receiving;
 
@@ -68,12 +70,18 @@ function PageUserSales() {
     SetUserFormSale(userFormSale_init);
   }
 
-  const handlerDelete = function (id) {
+  const handlerDelete = async function (id) {
 
-    handlerUserSaleDelete(id);
+    const userSaleDelete_resp = handlerUserSaleDelete(id);
+
+    if(userSaleDelete_resp.message == 'Deleted' && userSaleDelete_resp.status == 200 && userSaleDelete_resp){
+
+      const userSales_res = await handlerUserSalesGet();
+    }
   }
 
   const handlerCancel = function (e) {
+    
     SetUserFormSale(userFormSale_init);
     SetEdit(false);
     SetAdd(false);
@@ -86,51 +94,42 @@ function PageUserSales() {
   }
 
   const handlerSubmit = async function (e) {
+    
     e.preventDefault();
     let userSales_res
-    console.log(e);
-    console.log(e.target[1].value);
     const formSale = document.querySelector("#formSale");
-    console.log(formSale);
     const formData = new FormData(formSale);
-    console.log(formData.get('file'));
-
+;
     if (edit == true) {
 
       const userSalePut_resp = await handlerUserSalePut(userFormSale.id, userFormSale, formData);
       
       if(userSalePut_resp.message == 'Posted' && userSalePut_resp.status == 201 && userSalePut_resp.result){
 
-        console.log(userFormSale);
-        console.log(userSales);
         userSales_res = await handlerUserSalesGet();
         SetUserFormSale(userFormSale_init);
         SetEdit(false);
         SetAdd(false);
         SetEnabled(false);
-        SetMessage("Datos Cargados con éxito");
+        SetMessage("Datos modificados con éxito");
 
       }else{
 
-        SetMessage("Error al cargar datos");
+        SetMessage("Error al modificar datos");
       }
 
     } else if (add == true) {
 
       const userSalePost_resp = await handlerUserSalePost(userFormSale, formData);
 
-      console.log(userSalePost_resp);
-      
       if(userSalePost_resp.message == 'Posted' && userSalePost_resp.status == 201 && userSalePost_resp.result){
 
-        console.log(userFormSale);
-        console.log(userSales);
         userSales_res = await handlerUserSalesGet();
         SetUserFormSale(userFormSale_init);
         SetEdit(false);
         SetAdd(false);
         SetEnabled(false);
-        SetMessage("Datos Cargados con éxito");
+        SetMessage("Datos cargados con éxito");
 
       }else{
 

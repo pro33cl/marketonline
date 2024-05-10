@@ -29,7 +29,9 @@ function PageUserData() {
     handlerUserLogin,
     handlerRefreshAccess,
     accessLogin,
-    SetAccessLogin
+    SetAccessLogin,
+    totalPagesUserSales,
+    SetTotalPagesUserSales
   
   } = receiving;
 

@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function FormUserPassword(props) {
 
-    const { user, SetUser, handlerUserPut } = props;
+    const {user, SetUser, handlerUserPut } = props;
     const [edit, SetEdit] = useState(false);
     const [message, SetMessage] = useState("");
     const [newPassword, SetNewPassword] = useState({password1:"", password2:""});

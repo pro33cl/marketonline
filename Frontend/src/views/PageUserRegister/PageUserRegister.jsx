@@ -18,17 +18,26 @@ function PageUserRegister() {
 
   const {
     user,
-    SetUser,
+    SetUser, 
     userSales,
-    SetUserSales,
-    handlerUserGet,
+    SetUserSales, 
+    handlerUserGet, 
     handlerUserPut,
     handlerUserPost,
     handlerUserSalesGet,
     handlerUserSalePost,
     handlerUserSalePut,
     handlerUserSaleDelete,
-    FindIndexById } = receiving;
+    FindIndexById,
+    handlerUserLogin,
+    handlerRefreshAccess,
+    accessLogin,
+    SetAccessLogin,
+    totalPagesUserSales,
+    SetTotalPagesUserSales
+  
+  
+  } = receiving;
 
     const handlerChange = function (e) {
       SetUserFormRegister({ ...userFormRegister, [e.target.name]: e.target.value });

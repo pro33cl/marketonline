@@ -325,11 +325,13 @@ const Context_User_Provider = ({children}) =>{
         return resp;
     }
 
-    const handlerUserSalePost = async function(userSalePost, formDataImage){
+  
+    const handlerUserSalePost = async function(userSalePost, formData){
         
         try {
             
-            const userSalePost_formated = {name: userSalePost.name, 
+            const userSalePost_formated = {
+                name: userSalePost.name, 
                 image: "image", 
                 image_name: "image", 
                 description: userSalePost.description, 
@@ -343,11 +345,9 @@ const Context_User_Provider = ({children}) =>{
             const userSalePost_status = userSalePost_actual.status;
             const userSalePost_resp = {message: userSalePost_message, result: userSalePost_result, status: userSalePost_status};
 
-            console.log(userSalePost_resp);
-
             if(userSalePost_resp.message == 'Posted' && userSalePost_resp.status == 201 && userSalePost_resp.result){
 
-                const userSaleImagePost = await ApiUserSaleImagePost(userSalePost_resp.result.id, formDataImage);
+                const userSaleImagePost = await ApiUserSaleImagePost(userSalePost_resp.result.id, formData);
                 const userSaleImagePostJson = await userSaleImagePost.json();
                 const userSaleImagePost_message = userSaleImagePostJson.message;
                 const userSaleImagePost_result = userSaleImagePostJson.result;
@@ -356,22 +356,16 @@ const Context_User_Provider = ({children}) =>{
 
                 if(userSaleImagePost_resp.message == 'Posted' && userSaleImagePost_resp.status == 201 && userSaleImagePost_resp.result){
 
-                    let userSales_actual = [];
-                    const userSalePostJson_copy = JSON.parse(JSON.stringify(userSalePostJson));
-                    userSales_actual = JSON.parse(JSON.stringify(userSales));
-                    userSales_actual.push(userSalePostJson_copy);
-                    handlerRefreshUserSales(userSales_actual);
-
-                    return {message: 'Posted', result: userSaleImagePost_resp.result , status: 201};
+                    return {message: 'Posted', result: userSaleImagePost_resp.result, status: 201};
 
                 }else{
 
-                    return {message: userSaleImagePost_resp.message, result: userSaleImagePost_resp.result , status: userSaleImagePost_resp.status};
+                    return {message: userSaleImagePost_resp.message, result: userSalePost_resp.result, status: userSaleImagePost_resp.status};
                 }
 
             }else{
 
-                return {message: userSalePost_resp.message, result: userSalePost_resp.result , status: userSalePost_resp.status};
+                return {message: userSalePost_resp.message, result: null , status: userSalePost_resp.status};
             }
 
         } catch (error) {
@@ -380,62 +374,112 @@ const Context_User_Provider = ({children}) =>{
         } 
     }
 
-    
-
-    const ApiUserSalePut = async function(id, userSalePut){
+    const ApiUserSalePut = async function(id_product, userSalePut){
 
         const configuration= { 
             method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${accessLogin.token}`,
+                'Accept': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+
+            },
             body: JSON.stringify(userSalePut)
         };
-        const resp = await fetch(`${urlServer}/users_sales/${id}`,configuration);
-        const user_sale = await resp.json();
-        return user_sale;
-
+        const urlApi = `${urlServer}/products/user/sales/?sale_id=${id_product}`
+        const resp = await fetch(urlApi,configuration);
+        return resp;
     }
 
-    const ApiUserSaleDelete = async function(id, userSaleDelete){
+    const handlerUserSalePut = async function(id_product, userSalePut, formData){
+        
+        try {
+ 
+            const userSalePut_formated = {
+                name: userSalePut.name, 
+                description: userSalePut.description, 
+                price: userSalePut.price, 
+                category: userSalePut.category };
+
+            const userSalePut_actual = await ApiUserSalePut(id_product, userSalePut_formated);
+            const userSalePutJson = await userSalePut_actual.json();
+            const userSalePut_message = userSalePutJson.message;
+            const userSalePut_result = userSalePutJson.result;
+            const userSalePut_status = userSalePut_actual.status;
+            const userSalePut_resp = {message: userSalePut_message, result: userSalePut_result, status: userSalePut_status};
+
+            if(userSalePut_resp.message == 'Updated' && userSalePut_resp.status == 200 && userSalePut_resp.result){
+
+                const userSaleImagePost = await ApiUserSaleImagePost(userSalePut_resp.result.id, formData);
+                const userSaleImagePostJson = await userSaleImagePost.json();
+                const userSaleImagePost_message = userSaleImagePostJson.message;
+                const userSaleImagePost_result = userSaleImagePostJson.result;
+                const userSaleImagePost_status = userSaleImagePost.status;
+                const userSaleImagePost_resp = {message: userSaleImagePost_message, result: userSaleImagePost_result, status: userSaleImagePost_status};
+
+                if(userSaleImagePost_resp.message == 'Posted' && userSaleImagePost_resp.status == 201 && userSaleImagePost_resp.result){
+
+                    return {message: 'Posted', result: userSaleImagePost_resp.result , status: 201};
+
+                }else{
+
+                    return {message: userSaleImagePost_resp.message, result: userSalePut_resp.status , status: userSaleImagePost_resp.status};
+                }
+
+            }else{
+
+                return {message:userSalePut_resp.message, result: null, status: userSalePut_resp.status};
+            }
+       
+        } catch (error) {
+            
+            return {message: error, result: null, status: 400};
+        }
+    }
+
+    const ApiUserSaleDelete = async function(id_product){
 
         const configuration= { 
             method: 'DELETE',
-            body: JSON.stringify(userSaleDelete)
+            headers: {
+                'Authorization': `Bearer ${accessLogin.token}`,
+                'Accept': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+
+            }
         };
-        const resp = await fetch(`${urlServer}/users_sales/${id}`,configuration);
-        const user_sale = await resp.json();
-        return user_sale;
+        const urlApi = `${urlServer}/products/user/sales/?sale_id=${id_product}`
+        const resp = await fetch(urlApi,configuration);
+        return resp;
 
     }
 
+    const handlerUserSaleDelete = async function(id_product){
 
-    
+        try {
 
-   
+            const userSaleDelete_actual = await ApiUserSaleDelete(id_product);
+            const userSaleDeleteJson = await userSaleDelete_actual.json();
+            const userSaleDelete_message = userSaleDeleteJson.message;
+            const userSaleDelete_result = userSaleDeleteJson.result;
+            const userSaleDelete_status = userSaleDeleteJson.status;
+            const userSaleDelete_resp = {message: userSaleDelete_message, result: userSaleDelete_result, status: userSaleDelete_status};
 
-    const handlerUserSalePut = async function(id, userSalePut){
-        let userSales_actual = [];
-        let index;
-        console.log(userSalePut);
-        const userSalePut_actual = await ApiUserSalePut(id, userSalePut);
-        const userSalePut_actual_copy = JSON.parse(JSON.stringify(userSalePut_actual));
-        userSales_actual = JSON.parse(JSON.stringify(userSales));
-        console.log(userSales_actual);
-        index = FindIndexById(userSales_actual,id);
-        userSales_actual[index]=userSalePut_actual_copy;
-        console.log(userSales_actual)
-        SetUserSales(userSales_actual);
-        console.log(userSales)
-        
-    }
+            if(userSaleDelete_resp.message == 'Deleted' && userSaleDelete_resp.status == 200 && userSaleDelete_resp.result){
 
-    const handlerUserSaleDelete = async function(id){
-        let userSales_actual = [];
-        let index;
-        const userSaleDelete_actual = await ApiUserSaleDelete(id);
-        const userSaleDelete_actual_copy = JSON.parse(JSON.stringify(userSaleDelete_actual));
-        userSales_actual = JSON.parse(JSON.stringify(userSales));
-        index = FindIndexById(userSales_actual, id);
-        userSales_actual.splice(index,1);
-        SetUserSales(userSales_actual);
+                return {message: 'Deleted', result: userSaleDelete_resp.result , status: 200};
+
+            }else{
+
+                return {message: userSaleDelete_resp.message, result: userSaleDelete_resp.result , status: userSaleDelete_resp.result};
+            }
+
+        } catch (error) {
+            
+            return {message: error, result: null, status: 400};
+        }
     }
 
     const FindIndexById = function(matrix, id){
@@ -465,7 +509,9 @@ const Context_User_Provider = ({children}) =>{
         handlerUserLogin,
         handlerRefreshAccess,
         accessLogin,
-        SetAccessLogin
+        SetAccessLogin,
+        totalPagesUserSales,
+        SetTotalPagesUserSales
     };
 
 
