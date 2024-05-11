@@ -72,7 +72,9 @@ function PageUserSales() {
 
   const handlerDelete = async function (id) {
 
-    const userSaleDelete_resp = handlerUserSaleDelete(id);
+    const userSaleDelete_resp = await handlerUserSaleDelete(id);
+
+    console.log(userSaleDelete_resp);
 
     if(userSaleDelete_resp.message == 'Deleted' && userSaleDelete_resp.status == 200 && userSaleDelete_resp){
 
@@ -82,6 +84,8 @@ function PageUserSales() {
 
   const handlerCancel = function (e) {
     
+    const formSaleFileInput = document.querySelector("#formfileinput");
+    formSaleFileInput.value = "";    
     SetUserFormSale(userFormSale_init);
     SetEdit(false);
     SetAdd(false);
@@ -98,6 +102,7 @@ function PageUserSales() {
     e.preventDefault();
     let userSales_res
     const formSale = document.querySelector("#formSale");
+    const formSaleFileInput = document.querySelector("#formfileinput");
     const formData = new FormData(formSale);
 ;
     if (edit == true) {
@@ -108,6 +113,7 @@ function PageUserSales() {
 
         userSales_res = await handlerUserSalesGet();
         SetUserFormSale(userFormSale_init);
+        formSaleFileInput.value = "";
         SetEdit(false);
         SetAdd(false);
         SetEnabled(false);
@@ -126,6 +132,7 @@ function PageUserSales() {
 
         userSales_res = await handlerUserSalesGet();
         SetUserFormSale(userFormSale_init);
+        formSaleFileInput.value = "";
         SetEdit(false);
         SetAdd(false);
         SetEnabled(false);
@@ -156,7 +163,7 @@ function PageUserSales() {
             </Form.Group>
             <Form.Group className="mb-1">
               <Form.Label className="mb-0">Cargar Imagen</Form.Label>
-              {enabled == true ? <Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChange} />:<Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChange} disabled/>}
+              {enabled == true ? <Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChange} id='formfileinput' />:<Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChange} id='formfileinput' disabled/>}
             </Form.Group>
             <Form.Group className="mb-1">
               <Form.Label className="mb-0">Precio</Form.Label>
@@ -201,7 +208,6 @@ function PageUserSales() {
               <tr>
                 <th>#</th>
                 <th>Producto</th>
-                <th>Imagen</th>
                 <th>Precio</th>
                 <th>Categoría</th>
                 <th>Editar</th>
@@ -215,7 +221,6 @@ function PageUserSales() {
                     <tr key={element.id}>
                       <td>{i}</td>
                       <td>{element.name}</td>
-                      <td>{element.image}</td>
                       <td>{element.price}</td>
                       <td>{element.category}</td>
                       <td><Button size='sm' variant="primary" onClick={() => { handlerEdit(element.id) }}>Editar</Button></td>

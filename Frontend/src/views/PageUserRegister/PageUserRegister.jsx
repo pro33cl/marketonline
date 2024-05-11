@@ -17,6 +17,7 @@ function PageUserRegister() {
   const navigate = useNavigate();
 
   const {
+    
     user,
     SetUser, 
     userSales,
@@ -35,7 +36,6 @@ function PageUserRegister() {
     SetAccessLogin,
     totalPagesUserSales,
     SetTotalPagesUserSales
-  
   
   } = receiving;
 

@@ -57,6 +57,8 @@ router.put("/products/user/sales", credentialController.validateToken, salesCont
 
 router.delete("/products/user/sales", credentialController.validateToken, salesController.removeById_Sale); //lista
 
+router.delete("/productimage/:id", credentialController.validateToken, imageController.autorization_Image, imageController.delete_Image );
+
 // ----------------------------------------------------------
 // EXPORTANDO
 // ----------------------------------------------------------

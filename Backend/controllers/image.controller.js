@@ -10,6 +10,7 @@ import multer from 'multer';
 import {dirname, extname, join} from 'path';
 import {fileURLToPath} from 'url';
 import { salesModel } from "../models/sales.model.js";
+import {unlink} from 'fs/promises';
 
 // ----------------------------------------------------------
 // DECLARACIÓN VARIABLES
@@ -98,21 +99,22 @@ const autorization_Image = async function(req, res, next){
         const token = Authorization.split(" ")[1];
         const {user_id, user_email} = jwt.decode(token);
         const sale_exist = await productsModel.findById_Product(sale_id);
+        console.log(sale_exist);
     
         if(user_id == sale_exist.id_seller){
     
-            console.log("image.controller.autorization_Image: Access to post");
+            console.log("image.controller.autorization_Image: Access to image");
             next();
         }
         else{
     
-            console.log("sales.controller.updateById_Sale: No access to post");
+            console.log("image.controller.autorization_Image: No access to image");
             return res.status(400).json({message:"No access to post", result: null});
         }
         
     } catch (error) {
 
-        console.log("sales.controller.updateById_Sale: Internal server error");
+        console.log("image.controller.autorization_Image: Internal server error");
         return res.status(500).json({message: "Internal server error", result: error});
         
     }finally{
@@ -159,7 +161,56 @@ const post_Image = async function(req, res){
 
         console.log("image.controller.create_Image: End");
     }
-  
+}
+
+const deleteFile = async function(path){
+
+    try {
+        
+        await unlink(path);
+        return 'Success';
+
+    } catch (error) {
+        return error;
+    }
+}
+
+const delete_Image = async function(req, res){
+
+    try {
+
+        console.log("image.controller.delete_Image: Star");
+        const sale_id = await req.params.id;
+        const Authorization = await req.header("Authorization");
+        const token = Authorization.split(" ")[1];
+        const {user_id, user_email} = jwt.decode(token);
+        const sale_exist = await productsModel.findById_Product(sale_id);
+
+        const path = join(CURRENT_DIR, `../uploads/${sale_exist.image_name}`);
+        
+        const deleteImage_message = await deleteFile(path);
+        
+        if(deleteImage_message == 'Success'){
+
+            console.log("image.controller.delete_Image: Success");
+            return res.status(200).json({message: "Success", result: {id_product: sale_id, image_name: sale_exist.image_name, path: path}});
+       
+        }else{
+
+            console.log("image.controller.delete_Image: Not deleted");
+            return res.status(400).json({message: "Not deleted", result: null});
+        }
+
+    } catch (error) {
+
+        console.log("image.controller.delete_Image: Internal server error");
+        return res.status(500).json({message: "Internal server error", result: null});
+        
+    }finally{
+
+        console.log("image.controller.delete_Image: End");
+    }
+
 }
 
 
@@ -168,4 +219,4 @@ const post_Image = async function(req, res){
 // EXPORTANDO
 // ----------------------------------------------------------
 
-export const imageController = { upload, autorization_Image, getById_Image, post_Image};
+export const imageController = { upload, autorization_Image, getById_Image, post_Image, delete_Image};

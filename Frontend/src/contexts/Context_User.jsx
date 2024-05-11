@@ -264,8 +264,10 @@ const Context_User_Provider = ({children}) =>{
 
             if(userSales_resp.message == 'Success' && userSales_resp.status == 200 && userSales_resp.result){
 
+                console.log(userSales_resp.result.sales);
                 handlerRefreshUserSales(userSales_resp.result.sales);
                 SetTotalPagesUserSales(userSales_resp.result.totalpages);
+                console.log(userSales);
                 return {message: userSales_resp.message, result: userSales_resp.result, status: userSales_resp.status};
 
             }else{
@@ -286,7 +288,6 @@ const Context_User_Provider = ({children}) =>{
         const userSales_actual_copy = JSON.parse(JSON.stringify(userSales_actual));
         SetUserSales(userSales_actual_copy);
     }
-
 
     const ApiUserSalePost = async function(userSalePost){
 
@@ -325,6 +326,17 @@ const Context_User_Provider = ({children}) =>{
         return resp;
     }
 
+    const fileExist = function(formDataImage){
+
+        if(formDataImage.name == ""){
+
+            return false;
+
+        }else{
+
+            return true;
+        }
+    }
   
     const handlerUserSalePost = async function(userSalePost, formData){
         
@@ -344,23 +356,33 @@ const Context_User_Provider = ({children}) =>{
             const userSalePost_result = userSalePostJson.result;
             const userSalePost_status = userSalePost_actual.status;
             const userSalePost_resp = {message: userSalePost_message, result: userSalePost_result, status: userSalePost_status};
+            const fileImageExist = fileExist(formData.get('file'));
+            
+            console.log(formData.get('file'));
 
             if(userSalePost_resp.message == 'Posted' && userSalePost_resp.status == 201 && userSalePost_resp.result){
 
-                const userSaleImagePost = await ApiUserSaleImagePost(userSalePost_resp.result.id, formData);
-                const userSaleImagePostJson = await userSaleImagePost.json();
-                const userSaleImagePost_message = userSaleImagePostJson.message;
-                const userSaleImagePost_result = userSaleImagePostJson.result;
-                const userSaleImagePost_status = userSaleImagePost.status;
-                const userSaleImagePost_resp = {message: userSaleImagePost_message, result: userSaleImagePost_result, status: userSaleImagePost_status};
+                if(fileImageExist == true){
 
-                if(userSaleImagePost_resp.message == 'Posted' && userSaleImagePost_resp.status == 201 && userSaleImagePost_resp.result){
+                    const userSaleImagePost = await ApiUserSaleImagePost(userSalePost_resp.result.id, formData);
+                    const userSaleImagePostJson = await userSaleImagePost.json();
+                    const userSaleImagePost_message = userSaleImagePostJson.message;
+                    const userSaleImagePost_result = userSaleImagePostJson.result;
+                    const userSaleImagePost_status = userSaleImagePost.status;
+                    const userSaleImagePost_resp = {message: userSaleImagePost_message, result: userSaleImagePost_result, status: userSaleImagePost_status};
 
-                    return {message: 'Posted', result: userSaleImagePost_resp.result, status: 201};
+                    if(userSaleImagePost_resp.message == 'Posted' && userSaleImagePost_resp.status == 201 && userSaleImagePost_resp.result){
+
+                        return {message: 'Posted', result: userSaleImagePost_resp.result, status: 201};
+
+                    }else{
+
+                        return {message: userSaleImagePost_resp.message, result: userSalePost_resp.result, status: userSaleImagePost_resp.status};
+                    }
 
                 }else{
 
-                    return {message: userSaleImagePost_resp.message, result: userSalePost_resp.result, status: userSaleImagePost_resp.status};
+                    return {message: 'Posted', result: userSalePost_resp.result, status: 201};
                 }
 
             }else{
@@ -408,23 +430,31 @@ const Context_User_Provider = ({children}) =>{
             const userSalePut_result = userSalePutJson.result;
             const userSalePut_status = userSalePut_actual.status;
             const userSalePut_resp = {message: userSalePut_message, result: userSalePut_result, status: userSalePut_status};
+            const fileImageExist = fileExist(formData.get('file'));
 
             if(userSalePut_resp.message == 'Updated' && userSalePut_resp.status == 200 && userSalePut_resp.result){
 
-                const userSaleImagePost = await ApiUserSaleImagePost(userSalePut_resp.result.id, formData);
-                const userSaleImagePostJson = await userSaleImagePost.json();
-                const userSaleImagePost_message = userSaleImagePostJson.message;
-                const userSaleImagePost_result = userSaleImagePostJson.result;
-                const userSaleImagePost_status = userSaleImagePost.status;
-                const userSaleImagePost_resp = {message: userSaleImagePost_message, result: userSaleImagePost_result, status: userSaleImagePost_status};
+                if(fileImageExist == true){
 
-                if(userSaleImagePost_resp.message == 'Posted' && userSaleImagePost_resp.status == 201 && userSaleImagePost_resp.result){
+                    const userSaleImagePost = await ApiUserSaleImagePost(userSalePut_resp.result.id, formData);
+                    const userSaleImagePostJson = await userSaleImagePost.json();
+                    const userSaleImagePost_message = userSaleImagePostJson.message;
+                    const userSaleImagePost_result = userSaleImagePostJson.result;
+                    const userSaleImagePost_status = userSaleImagePost.status;
+                    const userSaleImagePost_resp = {message: userSaleImagePost_message, result: userSaleImagePost_result, status: userSaleImagePost_status};
 
-                    return {message: 'Posted', result: userSaleImagePost_resp.result , status: 201};
+                    if(userSaleImagePost_resp.message == 'Posted' && userSaleImagePost_resp.status == 201 && userSaleImagePost_resp.result){
+
+                        return {message: 'Posted', result: userSaleImagePost_resp.result , status: 201};
+
+                    }else{
+
+                        return {message: userSaleImagePost_resp.message, result: userSalePut_resp.status , status: userSaleImagePost_resp.status};
+                    }
 
                 }else{
 
-                    return {message: userSaleImagePost_resp.message, result: userSalePut_resp.status , status: userSaleImagePost_resp.status};
+                    return {message: 'Posted', result: userSalePut_resp.result, status: 201};
                 }
 
             }else{
@@ -456,16 +486,34 @@ const Context_User_Provider = ({children}) =>{
 
     }
 
+    const ApiUserSaleImageDelete = async function(id_product){
+
+        const config= { 
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${accessLogin.token}`
+            }
+        };
+
+        const urlApi =`${urlServer}/productimage/${id_product}`;
+        const resp = await fetch(urlApi, config);
+        return resp;
+    }
+
     const handlerUserSaleDelete = async function(id_product){
 
         try {
 
+            
+            const userSaleImageDelete = await ApiUserSaleImageDelete(id_product);
             const userSaleDelete_actual = await ApiUserSaleDelete(id_product);
             const userSaleDeleteJson = await userSaleDelete_actual.json();
             const userSaleDelete_message = userSaleDeleteJson.message;
             const userSaleDelete_result = userSaleDeleteJson.result;
-            const userSaleDelete_status = userSaleDeleteJson.status;
+            const userSaleDelete_status = userSaleDelete_actual.status;
             const userSaleDelete_resp = {message: userSaleDelete_message, result: userSaleDelete_result, status: userSaleDelete_status};
+
+            console.log(userSaleDelete_resp);
 
             if(userSaleDelete_resp.message == 'Deleted' && userSaleDelete_resp.status == 200 && userSaleDelete_resp.result){
 
@@ -473,7 +521,7 @@ const Context_User_Provider = ({children}) =>{
 
             }else{
 
-                return {message: userSaleDelete_resp.message, result: userSaleDelete_resp.result , status: userSaleDelete_resp.result};
+                return {message: userSaleDelete_resp.message, result: userSaleDelete_resp.result , status: userSaleDelete_resp.status};
             }
 
         } catch (error) {
