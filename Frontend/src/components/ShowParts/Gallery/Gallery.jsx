@@ -10,7 +10,7 @@ import '../Gallery/Gallery.css';
 function Gallery(props) {
 
     const type_card = "gallery_card";
-    const {products_matrix, matrixImagesProducts} = props;
+    const {products_matrix} = props;
 
   return (
     <div className='container-cards'>

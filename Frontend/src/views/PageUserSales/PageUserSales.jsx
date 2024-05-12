@@ -3,12 +3,13 @@ import MenuUser from '../../components/UserParts/MenuUser/MenuUser';
 import '../PageUserSales/PageUserSales.css';
 import { useContext } from 'react';
 import { Context_User } from '../../contexts/Context_User.jsx';
+import { Context_Products } from '../../contexts/Context_Products.jsx';
 import { useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import PagesIndex from '../../components/PageParts/PagesIndex/PagesIndex.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 
 function PageUserSales() {
@@ -39,9 +40,27 @@ function PageUserSales() {
     accessLogin,
     SetAccessLogin,
     totalPagesUserSales,
-    SetTotalPagesUserSales
+    SetTotalPagesUserSales,
+    pageUserSales, 
+    SetPageUserSales
   
   } = receiving;
+
+  const receiving2 = useContext(Context_Products);
+
+  const {
+    
+    matrixProducts,
+    pagination,
+    SetPagination, 
+    totalPages,
+    SetTotalPages,
+    page,
+    SetPage,
+    handlerMatrixProductsGet
+  
+  } = receiving2;
+
 
   const userFormSale_init = { id: null, name: "", description: "", image: "", price: 0, category: "" }
   const [edit, SetEdit] = useState(false);
@@ -79,6 +98,7 @@ function PageUserSales() {
     if(userSaleDelete_resp.message == 'Deleted' && userSaleDelete_resp.status == 200 && userSaleDelete_resp){
 
       const userSales_res = await handlerUserSalesGet();
+      await handlerRefreshPageHome();
     }
   }
 
@@ -97,6 +117,7 @@ function PageUserSales() {
     console.log(userFormSale);
   }
 
+
   const handlerSubmit = async function (e) {
     
     e.preventDefault();
@@ -112,6 +133,7 @@ function PageUserSales() {
       if(userSalePut_resp.message == 'Posted' && userSalePut_resp.status == 201 && userSalePut_resp.result){
 
         userSales_res = await handlerUserSalesGet();
+        await handlerRefreshPageHome();
         SetUserFormSale(userFormSale_init);
         formSaleFileInput.value = "";
         SetEdit(false);
@@ -131,6 +153,7 @@ function PageUserSales() {
       if(userSalePost_resp.message == 'Posted' && userSalePost_resp.status == 201 && userSalePost_resp.result){
 
         userSales_res = await handlerUserSalesGet();
+        await handlerRefreshPageHome();
         SetUserFormSale(userFormSale_init);
         formSaleFileInput.value = "";
         SetEdit(false);
@@ -143,6 +166,12 @@ function PageUserSales() {
         SetMessage("Error al cargar datos");
       }
     }
+  }
+
+  const handlerRefreshPageHome = async function(){
+
+    handlerMatrixProductsGet(pagination.category, pagination.search , pagination.orderby, pagination.order, pagination.limit, page);
+
   }
 
 
@@ -219,7 +248,7 @@ function PageUserSales() {
                 userSales.map((element, i) => {
                   return (
                     <tr key={element.id}>
-                      <td>{i}</td>
+                      <td>{i+1}</td>
                       <td>{element.name}</td>
                       <td>{element.price}</td>
                       <td>{element.category}</td>
@@ -231,6 +260,7 @@ function PageUserSales() {
               }
             </tbody>
           </Table>
+          <PagesIndex totalPages={totalPagesUserSales} page={pageUserSales} SetPage={SetPageUserSales}></PagesIndex>
         </div>
 
       </div>

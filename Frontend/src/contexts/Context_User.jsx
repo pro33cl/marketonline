@@ -559,7 +559,9 @@ const Context_User_Provider = ({children}) =>{
         accessLogin,
         SetAccessLogin,
         totalPagesUserSales,
-        SetTotalPagesUserSales
+        SetTotalPagesUserSales,
+        pageUserSales, 
+        SetPageUserSales
     };
 
 
