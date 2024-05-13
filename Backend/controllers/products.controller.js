@@ -176,16 +176,15 @@ const findAllByFilterPagination_Products = async function (req, res){
     try {
 
         console.log("products.controller.findAllByFilterPagination_Products: Start");
-        const {category, search, orderby, order, limit, page} = await req.query;
+        const {category, search, orderby, limit, page} = await req.query;
 
         console.log(category);
         console.log(search);
         console.log(orderby);
-        console.log(order);
         console.log(limit);
         console.log(page);
 
-        const {category_V, search_V, orderby_V, order_V, limit_V, page_V, total_pages} = await VerifyFilterPagination({category, search, orderby, order, limit, page});
+        const {category_V, search_V, orderby_V, order_V, limit_V, page_V, total_pages} = await VerifyFilterPagination({category, search, orderby, limit, page});
 
         console.log(category_V);
         console.log(search_V);

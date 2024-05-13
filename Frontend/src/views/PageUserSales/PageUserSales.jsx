@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Image from 'react-bootstrap/Image';
 import PagesIndex from '../../components/PageParts/PagesIndex/PagesIndex.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -62,7 +63,7 @@ function PageUserSales() {
   } = receiving2;
 
 
-  const userFormSale_init = { id: null, name: "", description: "", image: "", price: 0, category: "" }
+  const userFormSale_init = { id: null, name: "", description: "", file: "", image: "", price: 0, category: "" }
   const [edit, SetEdit] = useState(false);
   const [add, SetAdd] = useState(false);
   const [enabled, SetEnabled] = useState(false);
@@ -75,10 +76,11 @@ function PageUserSales() {
     SetEdit(true);
     SetAdd(false);
     SetEnabled(true);
-    console.log(id);
     const index = FindIndexById(userSales,id);
     const userFormSale_actual = userSales[index];
-    SetUserFormSale(userFormSale_actual); 
+    console.log(userFormSale_actual);
+    SetUserFormSale(userFormSale_actual);
+    handlerShowImage(userFormSale_actual.image);
   }
 
   const handlerAdd = function (e) {
@@ -105,11 +107,30 @@ function PageUserSales() {
   const handlerCancel = function (e) {
     
     const formSaleFileInput = document.querySelector("#formfileinput");
-    formSaleFileInput.value = "";    
+    formSaleFileInput.value = ""; 
+    handlerShowImage("");   
     SetUserFormSale(userFormSale_init);
     SetEdit(false);
     SetAdd(false);
     SetEnabled(false);
+  }
+
+  const handlerChangeInputFile = function(e){
+
+    SetUserFormSale({ ...userFormSale, file: e.target.value });
+    
+    const formSale = document.querySelector("#formSale");
+    const formData = new FormData(formSale);
+    const imageUrl = URL.createObjectURL(formData.get("file"));
+
+    handlerShowImage(imageUrl);
+    
+  }
+
+  const handlerShowImage = function(imageValue){
+
+    const formImage = document.querySelector("#formimage");
+    formImage.setAttribute('src', imageValue);
   }
 
   const handlerChange = function (e) {
@@ -136,6 +157,7 @@ function PageUserSales() {
         await handlerRefreshPageHome();
         SetUserFormSale(userFormSale_init);
         formSaleFileInput.value = "";
+        handlerShowImage("");
         SetEdit(false);
         SetAdd(false);
         SetEnabled(false);
@@ -156,6 +178,7 @@ function PageUserSales() {
         await handlerRefreshPageHome();
         SetUserFormSale(userFormSale_init);
         formSaleFileInput.value = "";
+        handlerShowImage("");
         SetEdit(false);
         SetAdd(false);
         SetEnabled(false);
@@ -170,7 +193,7 @@ function PageUserSales() {
 
   const handlerRefreshPageHome = async function(){
 
-    handlerMatrixProductsGet(pagination.category, pagination.search , pagination.orderby, pagination.order, pagination.limit, page);
+    handlerMatrixProductsGet(pagination.category, pagination.search , pagination.orderby, pagination.limit, page);
 
   }
 
@@ -192,7 +215,7 @@ function PageUserSales() {
             </Form.Group>
             <Form.Group className="mb-1">
               <Form.Label className="mb-0">Cargar Imagen</Form.Label>
-              {enabled == true ? <Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChange} id='formfileinput' />:<Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChange} id='formfileinput' disabled/>}
+              {enabled == true ? <Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChangeInputFile} id='formfileinput' />:<Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChangeInputFile} id='formfileinput' disabled/>}
             </Form.Group>
             <Form.Group className="mb-1">
               <Form.Label className="mb-0">Precio</Form.Label>
@@ -224,10 +247,15 @@ function PageUserSales() {
               <Form.Label className="mb-0">Descripción:</Form.Label>
               {enabled == true ? <Form.Control as="textarea" name='description' rows={7}  placeholder={userFormSale.description} className='mt-3' value={userFormSale.description} onChange={handlerChange}/>:<Form.Control as="textarea" name='description' rows={7}  placeholder={userFormSale.description} className='mt-3' value={userFormSale.description} onChange={handlerChange} disabled/>}
             </Form.Group>
-            {enabled == true ? <Button variant="primary" onClick={() => { handlerAdd()}} disabled >Nuevo</Button>:<Button variant="primary" onClick={() => { handlerAdd()}}>Nuevo</Button>}
-            {enabled == true ? <Button variant="primary" onClick={() => { handlerCancel()}}>Cancelar</Button>:<Button variant="primary" onClick={() => { handlerCancel()}} disabled >Cancelar</Button>}
-            {enabled == true ? <Button  variant="primary" type="submit">Guardar</Button>:<Button  variant="primary" type="submit"disabled>Guardar</Button>}
-            <Form.Label className="mb-0">{message}</Form.Label>
+            <Form.Group className="mb-1">
+              <Image id='formimage' width={'200px'} rounded/>
+            </Form.Group>
+            <Form.Group className="mb-1">
+              {enabled == true ? <Button variant="primary" onClick={() => { handlerAdd()}} disabled >Nuevo</Button>:<Button variant="primary" onClick={() => { handlerAdd()}}>Nuevo</Button>}
+              {enabled == true ? <Button variant="primary" onClick={() => { handlerCancel()}}>Cancelar</Button>:<Button variant="primary" onClick={() => { handlerCancel()}} disabled >Cancelar</Button>}
+              {enabled == true ? <Button  variant="primary" type="submit">Guardar</Button>:<Button  variant="primary" type="submit"disabled>Guardar</Button>}
+              <Form.Label className="mb-0">{message}</Form.Label>
+            </Form.Group>
           </Form>
 
         </div>

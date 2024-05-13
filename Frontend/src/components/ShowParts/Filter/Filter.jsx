@@ -12,7 +12,26 @@ function Filter(props) {
     const formSearch = document.querySelector("#formFilterSearch");
     const formCategory = document.querySelector("#formFilterCategory");
     const formOrderBy= document.querySelector("#formFilterOrderBy");
-    const [formFilter, SetFormFilter] = useState(""); 
+    const [formFilterSearch, SetFormFilterSearch] = useState(""); 
+    const [formFilterCategory, SetFormFilterCategory] = useState("Categoría"); 
+    const [formFilterOrderBy, SetFormFilterOrderBy] = useState("Ordenar por"); 
+
+
+    const handlerFormInit = function(){
+
+        SetFormFilterSearch("");
+        SetFormFilterCategory("Categoría");
+        SetFormFilterOrderBy("Ordenar por");
+        formSearch.value = "";
+        formCategory.value = "Categoría";
+        formOrderBy.value = "Ordenar por";
+
+    }
+
+    const handlerLoad = function(e){
+
+        handlerFormInit();
+    }
 
     const handlerSubmit = function(e){
 
@@ -22,28 +41,27 @@ function Filter(props) {
         let orderby;
         let search;
 
-        category = formCategory.value;
+        category = formFilterCategory;
         if(category == 'Categoría'){
 
             category = "";
 
         }else{
 
-            category = formCategory.value;
+            category = formFilterCategory;
         }
 
-        const OrderBy = formOrderBy.value;
+        const OrderBy = formFilterOrderBy;
         if(OrderBy == 'Ordenar por'){
 
             orderby = "id_ASC";
 
         }else{
 
-            orderby = formOrderBy.value;
+            orderby = formFilterOrderBy;
         }
 
-        search = formSearch.value;
-        SetFormFilter(search);
+        search = formFilterSearch;
         
         console.log(category);
         console.log(search);
@@ -53,7 +71,6 @@ function Filter(props) {
         const paginationActual_copy = JSON.parse(JSON.stringify(paginationActual));
         console.log(paginationActual);
         SetPagination(paginationActual_copy);
-
     }
 
     const handlerClean = function(e){
@@ -62,22 +79,34 @@ function Filter(props) {
         const paginationInit_copy = JSON.parse(JSON.stringify(paginationInit));
         console.log(paginationInit);
         SetPagination(paginationInit_copy);
-        SetFormFilter("");
-        formCategory.value = "Categoría";
-        formOrderBy.value = "Ordenar por";
+        handlerFormInit();
     }
 
 
-    const handlerChange = function (e) {
-        SetFormFilter(e.target.value);
-      }
+    const handlerChangeSearch = function (e) {
+        SetFormFilterSearch(e.target.value);
+    }
+
+    const handlerChangeCategory = function (e) {
+        SetFormFilterCategory(e.target.value);
+    }
+
+    const handlerChangeOrderBy = function (e) {
+        SetFormFilterOrderBy(e.target.value);
+    }
+
+
+
+
+
+
 
     return (
 
-        <Form id='formfilter' style={{ width: "100%", padding: "1rem" }} onSubmit={handlerSubmit}>
+        <Form id='formfilter' style={{ width: "100%", padding: "1rem" }} onSubmit={handlerSubmit} onLoad={handlerLoad}>
             <Form.Group className="mb-1">
-                <Form.Control size='sm' className="mt-0" type="text" name='search' placeholder='Buscar' id='formFilterSearch' value={formFilter} onChange={handlerChange}/>
-                <Form.Select size='sm' name='category' aria-label="Default select example" id='formFilterCategory'>
+                <Form.Control size='sm' className="mt-0" type="text" name='search' placeholder='Buscar' id='formFilterSearch' value={formFilterSearch} onChange={handlerChangeSearch}/>
+                <Form.Select size='sm' name='category' aria-label="Default select example" id='formFilterCategory' onChange={handlerChangeCategory}>
                         <option>Categoría</option>
                         <option value="pantalon">Pantalón</option>
                         <option value="falda">Falda</option>
@@ -86,7 +115,7 @@ function Filter(props) {
                         <option value="zapatos">Zapatos</option>
                         <option value="zapatillas">Zapatillas</option>
                 </Form.Select>
-                <Form.Select size='sm' name='orderby' aria-label="Default select example" id='formFilterOrderBy'>
+                <Form.Select size='sm' name='orderby' aria-label="Default select example" id='formFilterOrderBy' onChange={handlerChangeOrderBy}>
                         <option>Ordenar por</option>
                         <option value="price_ASC">Precio: menor a mayor</option>
                         <option value="price_DESC">Precio: mayor a menor</option>
