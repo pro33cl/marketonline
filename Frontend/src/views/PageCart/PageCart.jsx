@@ -6,7 +6,23 @@ import CartTable from '../../components/CartParts/TableCart/TableCart';
 
 function PageCart() {
 
-  const {cartTable, valorTotal, handlerCartTablePostProduct, handlerCartTablePutCount, handlerCartTableDeleteProduct, handlerCartTableIfExistProduct, handlerCartTableGetProduct, formatMoney} = useContext(Context_Cart);
+  const receiving = useContext(Context_Cart);
+
+
+  const {
+
+    cartTable, 
+    valorTotal,
+    countTotal, 
+    handlerCartTablePostProduct, 
+    handlerCartTablePutCount, 
+    handlerCartTableDeleteProduct, 
+    handlerCartTableIfExistProduct, 
+    handlerCartTableGetProduct, 
+    formatMoney
+
+  } = receiving;
+
 
   return (
     <div className='cart'>

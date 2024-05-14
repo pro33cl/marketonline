@@ -3,6 +3,7 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom';
 import { useContext } from 'react';
 import { Context_User } from './contexts/Context_User.jsx';
+import { Context_Cart } from './contexts/Context_Cart.jsx';
 import PageDetailProduct from '../src/views/PageDetailProduct/PageDetailProduct.jsx';
 import PageHome from '../src/views/PageHome/PageHome.jsx';
 import PageUserLogin from '../src/views/PageUserLogin/PageUserLogin.jsx';
@@ -13,14 +14,17 @@ import PageUserData from '../src/views/PageUserData/PageUserData.jsx';
 import PageUserSales from './views/PageUserSales/PageUserSales.jsx';
 import PageUserRegister from './views/PageUserRegister/PageUserRegister.jsx';
 
+
 function App() {
 
   const {accessLogin} = useContext(Context_User);
-  
+  const {countTotal} = useContext(Context_Cart);
+
+
 
   return (
     <>
-      <TopMenu></TopMenu>
+      <TopMenu countTotal={countTotal}></TopMenu>
       <Routes>
         <Route path="/" element={<PageHome></PageHome>}></Route>
         <Route path="/products" element={<PageHome></PageHome>}></Route>

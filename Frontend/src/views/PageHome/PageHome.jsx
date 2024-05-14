@@ -8,6 +8,7 @@ import Filter from '../../components/ShowParts/Filter/Filter.jsx';
 
 
 
+
 function PageHome() {
 
   const receiving = useContext(Context_Products);
@@ -25,8 +26,7 @@ function PageHome() {
   
   } = receiving;
 
-
-
+  
   console.log(matrixProducts);
   console.log("totalPages :"+totalPages);
   console.log("page :"+page);

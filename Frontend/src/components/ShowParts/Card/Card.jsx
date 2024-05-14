@@ -24,8 +24,25 @@ function Card(props) {
 
     const {type_card, product} = props;
     const {id, image, name, price, evaluation, description, seller} = product;
-    const {cartTable, valorTotal, handlerCartTablePostProduct, handlerCartTablePutCount, handlerCartTableDeleteProduct, handlerCartTableIfExistProduct, handlerCartTableGetProduct, formatMoney} = useContext(Context_Cart);
-    
+    const receiving = useContext(Context_Cart);
+
+
+    const {
+
+        cartTable, 
+        valorTotal,
+        countTotal, 
+        handlerCartTablePostProduct, 
+        handlerCartTablePutCount, 
+        handlerCartTableDeleteProduct, 
+        handlerCartTableIfExistProduct, 
+        handlerCartTableGetProduct, 
+        formatMoney
+
+    } = receiving;
+
+
+
     const count_initial = function(){
         if(handlerCartTableIfExistProduct(id)){
             return handlerCartTableGetProduct(id).count;

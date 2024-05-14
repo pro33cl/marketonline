@@ -9,18 +9,24 @@ const Context_Cart_Provider = ({children}) =>{
 
     const [cartTable, SetCartTable] = useState([]);
     const [valorTotal, SetValorTotal] = useState(0);
+    const [countTotal, SetCountTotal] = useState(0);
 
     const handlerCartTableRefresh = function(cartTable_actual){
         SetCartTable(cartTable_actual);
         let total = 0;
+        let count = 0;
         cartTable_actual.forEach((element)=>{
             total += element.price_total;
+            count += element.count;
         });
         SetValorTotal(total);
+        SetCountTotal(count);
         console.log("cartTable actualizado");
         console.log(cartTable);
         console.log("valorTotal actualizado");
         console.log(valorTotal);
+        console.log("countTotal actualizado");
+        console.log(countTotal);
     }
 
     const handlerCartTablePostProduct = function(product){
@@ -90,9 +96,21 @@ const Context_Cart_Provider = ({children}) =>{
         return new Intl.NumberFormat('de-DE', { style: 'currency', currency: `${string_currency}` }).format(value_money,);
     }
 
+    const exporting = {
+
+        cartTable, 
+        valorTotal,
+        countTotal, 
+        handlerCartTablePostProduct, 
+        handlerCartTablePutCount, 
+        handlerCartTableDeleteProduct, 
+        handlerCartTableIfExistProduct, 
+        handlerCartTableGetProduct, 
+        formatMoney
+    };
 
     return (
-        <Context_Cart.Provider value={{cartTable, valorTotal, handlerCartTablePostProduct, handlerCartTablePutCount, handlerCartTableDeleteProduct, handlerCartTableIfExistProduct, handlerCartTableGetProduct, formatMoney}}>
+        <Context_Cart.Provider value={exporting}>
             {children}
         </Context_Cart.Provider>
       );
