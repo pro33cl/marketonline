@@ -11,7 +11,8 @@
 .image-home{
     background-repeat: no-repeat;
     background-size: cover;
-    height: 10rem;
+    background-image: url('../../assets/images/image_home.png');
+    background-position-y: -10px;
+    height: 12rem;
     width: 100%;
-    background-color:aquamarine;
 }

@@ -17,7 +17,7 @@ function Gallery(props) {
           {
             products_matrix.map((product)=>{
               return (
-                      <div key={product.id}>
+                      <div key={product.id} className='container-card'>
                         <Card type_card={type_card} product={product} ></Card>
                       </div>
                       );

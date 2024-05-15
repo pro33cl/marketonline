@@ -5,6 +5,7 @@
 import React, { useContext, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import '../Card/Card.css';
 import { Context_Cart } from '../../../contexts/Context_Cart';
@@ -70,8 +71,15 @@ function Card(props) {
     const handlerButtonLess = function(){
         const delta = 1;
         const newCount = count - delta;
-        if(newCount < 0){
-            SetCount(0);
+        if(newCount <= 0){
+
+            if(handlerCartTableIfExistProduct(id) == false){
+                return ;
+            }
+            else{
+                handlerCartTableDeleteProduct(id);
+                SetCount(0);
+            }
         }
         else{
             SetCount(newCount);
@@ -87,6 +95,7 @@ function Card(props) {
 
     const handlerButtonAdd = function(){
         console.log("boton agregar apretado");
+        console.log("Count antes:"+count);
         let count_formated;
         if(count<=0){
             count_formated = 1;
@@ -94,6 +103,7 @@ function Card(props) {
         else{
             count_formated = count;
         }
+        console.log("Count despues:"+count);
         if(handlerCartTableIfExistProduct(id) == false){
             console.log("opcion 1: no existe producto en carrito y se agrega");
             handlerCartTablePostProduct({id: id, name: name, price: price, count: count_formated});
@@ -122,39 +132,43 @@ function Card(props) {
     //----------------------------------------------------
 
     return (
-        <div className='card'>
-            <div className='card-header'>
-                <div className='card-header-image' style={{ backgroundImage: `url(${image})` }}></div>
+        <div className='card border-dark' style={type_card == "detail_card"? {width:"100%", borderStyle: "none"} : {width: "18rem", borderStyle: "solid" }}>
+            
+            <div className='card-header bg-transparent' onClick={()=>{handlerButtonDetail(id)}} 
+                style={type_card == "detail_card"? 
+                {width: "100%", display: "flex", flexDirection: "column", justifyContent: "start", alignItems: "start"}:
+                {width: "100%",  display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                
+                <div className='card-header-image' style={type_card == "detail_card"? { width: "19rem", height:"14.25rem", backgroundImage: `url(${image})`}:{ width:"17rem", height:"12.75rem", backgroundImage: `url(${image})`}}></div>
+            
             </div>
-            <div className='card-body'>
+            <div className='card-body' style={type_card == "detail_card"? {height: "auto"} : {height: "5rem"} } onClick={()=>{handlerButtonDetail(id)}}>
                 <div className='card-body-header'>
-                    <div className='card-body-title'>
-                        <h3 className='txt-title'>{name}</h3>
-                    </div>
-                    <div className='card-body-calification'>
-                            <p className='txt-normal'>evaluación: {evaluation}</p>
-                            {type_card == "detail_card"?<p className='txt-normal'>Vendedor: {seller}</p>:null}
+                    <div className='card-body-title' style={type_card == "detail_card"?
+                        {width: "100%", display: "flex", flexDirection: "column", justifyContent: "start", alignItems: "start"} : 
+                        {width: "100%",  display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                        
+                        <h4>{name}</h4>
                     </div>
                 </div>
                 <div className='card-body-description'>
-                    {type_card == "detail_card"?<p className='txt-normal'>{description}</p>:null}
+                    {type_card == "detail_card"?<p className='fs-6 text-start'>{description}</p>:null}
                 </div>
                 <div className='card-body-price'>
-                    <p className='txt-normal-bold'>{price}</p>
+                    <p className='fs-6 fw-bold text-secondary'>Precio : ${price}</p>
                 </div>
             </div>
-            <div className='card-footer'>
+            <div className='card-footer bg-transparent'>
                 <div className='card-footer-counts'>
-                    <p className='txt-normal'>{count}</p>
+                    <p className='fs-6 text-secondary'>Cantidad : {count}</p>
                     <ButtonGroup aria-label="Basic example">
-                        <Button variant="secondary" onClick={handlerButtonMore}>+</Button>
-                        <Button variant="secondary" onClick={handlerButtonLess}>-</Button>
+                        {count > 0? <Button className="card-btn-plusless" variant="secondary" size='sm' onClick={handlerButtonMore}>+</Button> :null}
+                        {count > 0? <Button className="card-btn-plusless" variant="secondary" size='sm' onClick={handlerButtonLess}>-</Button> :null}
                     </ButtonGroup>
                 </div>
                 <div className='card-footer-buttons'>
-                    {type_card == "gallery_card"?<Button variant="primary" onClick={()=>{handlerButtonDetail(id)}}>Más...</Button>:null}
-                    {count > 0?<Button variant="primary" onClick={handlerButtonDelete}>Eliminar</Button>:null}
-                    <Button variant="primary" onClick={handlerButtonAdd}>Agregar</Button>
+                    {count > 0?<Button className="card-btn" variant="dark" onClick={handlerButtonDelete}>Eliminar</Button>:null}
+                    <Button className="card-btn" variant="dark" onClick={handlerButtonAdd}>Agregar</Button>
                 </div>
             </div>
         </div>

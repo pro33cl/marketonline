@@ -29,7 +29,11 @@ function PageUserLogin() {
 
   
   return (
-    <FormLogin handlerUserLogin={handlerUserLogin} accessLogin={accessLogin} SetAccessLogin={SetAccessLogin}></FormLogin>
+    <div style={{width: "100%", padding: "2rem", display: 'flex', flexDirection: 'column', justifyContent:'start', alignItems:'center'}}>
+      <FormLogin handlerUserLogin={handlerUserLogin} accessLogin={accessLogin} SetAccessLogin={SetAccessLogin}></FormLogin>
+    </div>
+
+    
   )
 }
 

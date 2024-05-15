@@ -1,0 +1,173 @@
+/* width <=576px, CELLPHONE*/
+
+.formfilter{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+
+}
+
+.formfilter-inputs{
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+
+}
+
+.formfilter-inputs-search{
+
+    width: 100%;
+    border-radius: 1rem;
+    margin: 0.1rem;
+
+}
+
+.formfilter-inputs-category{
+
+    width: 100%;
+    border-radius: 1rem;
+    margin: 0.1rem;
+
+}
+
+.formfilter-inputs-orderby{
+
+    width: 100%;
+    border-radius: 1rem;
+    margin: 0.1rem;
+
+}
+
+.formfilter-button{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+}
+
+.formfilter-button-filter{
+
+    border-radius: 1rem;
+    height: 2.4rem;
+    margin: 0.2rem;
+    width: auto;
+
+}
+
+.formfilter-button-clean{
+
+    border-radius: 1rem;
+    height: 2.4rem;
+    margin: 0.2rem;
+    width: auto;
+}
+
+/* 576px < width < 992px , TABLETS*/
+@media(min-width: 576px){
+
+    .formfilter{
+
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        width: 100%;
+        padding: 1rem;
+    
+    }
+    
+    .formfilter-inputs{
+    
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+    
+    }
+    
+    .formfilter-inputs-search{
+    
+        width: 100%;
+        
+    }
+    
+    .formfilter-inputs-category{
+    
+        width: 100%;
+    
+    }
+    
+    .formfilter-inputs-orderby{
+    
+        width: 100%;
+    
+    }
+    
+    .formfilter-button{
+    
+        width: 100%;
+    }
+    
+
+    }
+/* 992px < width, DESKTOP*/
+@media(min-width: 992px){
+
+
+    .formfilter{
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        padding: 1rem;
+    
+    }
+    
+    .formfilter-inputs{
+    
+        width: 50%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    
+    }
+    
+    .formfilter-inputs-search{
+    
+        width: 15rem;
+    
+    }
+    
+    .formfilter-inputs-category{
+    
+        width: 15rem;
+    
+    }
+    
+    .formfilter-inputs-orderby{
+    
+        width: 15rem;
+    
+    }
+    
+    .formfilter-button{
+    
+        width: 50%;
+    }
+    
+ 
+}

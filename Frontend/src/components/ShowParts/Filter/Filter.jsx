@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../Filter/Filter.css';
 
 
 
@@ -11,13 +12,13 @@ function Filter(props) {
 
     const formSearch = document.querySelector("#formFilterSearch");
     const formCategory = document.querySelector("#formFilterCategory");
-    const formOrderBy= document.querySelector("#formFilterOrderBy");
-    const [formFilterSearch, SetFormFilterSearch] = useState(""); 
-    const [formFilterCategory, SetFormFilterCategory] = useState("Categoría"); 
-    const [formFilterOrderBy, SetFormFilterOrderBy] = useState("Ordenar por"); 
+    const formOrderBy = document.querySelector("#formFilterOrderBy");
+    const [formFilterSearch, SetFormFilterSearch] = useState("");
+    const [formFilterCategory, SetFormFilterCategory] = useState("Categoría");
+    const [formFilterOrderBy, SetFormFilterOrderBy] = useState("Ordenar por");
 
 
-    const handlerFormInit = function(){
+    const handlerFormInit = function () {
 
         SetFormFilterSearch("");
         SetFormFilterCategory("Categoría");
@@ -28,12 +29,12 @@ function Filter(props) {
 
     }
 
-    const handlerLoad = function(e){
+    const handlerLoad = function (e) {
 
         handlerFormInit();
     }
 
-    const handlerSubmit = function(e){
+    const handlerSubmit = function (e) {
 
         e.preventDefault();
 
@@ -42,40 +43,40 @@ function Filter(props) {
         let search;
 
         category = formFilterCategory;
-        if(category == 'Categoría'){
+        if (category == 'Categoría') {
 
             category = "";
 
-        }else{
+        } else {
 
             category = formFilterCategory;
         }
 
         const OrderBy = formFilterOrderBy;
-        if(OrderBy == 'Ordenar por'){
+        if (OrderBy == 'Ordenar por') {
 
             orderby = "id_ASC";
 
-        }else{
+        } else {
 
             orderby = formFilterOrderBy;
         }
 
         search = formFilterSearch;
-        
+
         console.log(category);
         console.log(search);
         console.log(orderby);
 
-        const paginationActual =  {category: category, search: search, orderby: orderby, limit: 10};
+        const paginationActual = { category: category, search: search, orderby: orderby, limit: 10 };
         const paginationActual_copy = JSON.parse(JSON.stringify(paginationActual));
         console.log(paginationActual);
         SetPagination(paginationActual_copy);
     }
 
-    const handlerClean = function(e){
+    const handlerClean = function (e) {
 
-        const paginationInit =  {category:"", search: "", orderby: "id", order: "ASC", limit: 10};
+        const paginationInit = { category: "", search: "", orderby: "id", order: "ASC", limit: 10 };
         const paginationInit_copy = JSON.parse(JSON.stringify(paginationInit));
         console.log(paginationInit);
         SetPagination(paginationInit_copy);
@@ -103,28 +104,28 @@ function Filter(props) {
 
     return (
 
-        <Form id='formfilter' style={{ width: "100%", padding: "1rem" }} onSubmit={handlerSubmit} onLoad={handlerLoad}>
-            <Form.Group className="mb-1">
-                <Form.Control size='sm' className="mt-0" type="text" name='search' placeholder='Buscar' id='formFilterSearch' value={formFilterSearch} onChange={handlerChangeSearch}/>
-                <Form.Select size='sm' name='category' aria-label="Default select example" id='formFilterCategory' onChange={handlerChangeCategory}>
-                        <option>Categoría</option>
-                        <option value="pantalon">Pantalón</option>
-                        <option value="falda">Falda</option>
-                        <option value="camisa">Camisa</option>
-                        <option value="blusa">Blusa</option>
-                        <option value="zapatos">Zapatos</option>
-                        <option value="zapatillas">Zapatillas</option>
+        <Form id='formfilter' className='formfilter' onSubmit={handlerSubmit} onLoad={handlerLoad}>
+            <Form.Group className="mb-1 formfilter-inputs">
+                <Form.Control size='sm' className="mt-0 formfilter-inputs-search" type="text" name='search' placeholder='Buscar' id='formFilterSearch' value={formFilterSearch} onChange={handlerChangeSearch} />
+                <Form.Select size='sm' className='formfilter-inputs-category' name='category' aria-label="Default select example" id='formFilterCategory' onChange={handlerChangeCategory}>
+                    <option>Categoría</option>
+                    <option value="pantalon">Pantalón</option>
+                    <option value="falda">Falda</option>
+                    <option value="camisa">Camisa</option>
+                    <option value="blusa">Blusa</option>
+                    <option value="zapatos">Zapatos</option>
+                    <option value="zapatillas">Zapatillas</option>
                 </Form.Select>
-                <Form.Select size='sm' name='orderby' aria-label="Default select example" id='formFilterOrderBy' onChange={handlerChangeOrderBy}>
-                        <option>Ordenar por</option>
-                        <option value="price_ASC">Precio: menor a mayor</option>
-                        <option value="price_DESC">Precio: mayor a menor</option>
+                <Form.Select size='sm' className='formfilter-inputs-orderby' name='orderby' aria-label="Default select example" id='formFilterOrderBy' onChange={handlerChangeOrderBy}>
+                    <option>Ordenar por</option>
+                    <option value="price_ASC">Precio: menor a mayor</option>
+                    <option value="price_DESC">Precio: mayor a menor</option>
                 </Form.Select>
             </Form.Group>
-            <Form.Group className="mb-1">
-                <Button variant="primary" type="submit">Filtrar</Button>
-                <Button variant="primary" onClick={() => { handlerClean() }}>Limpiar Filtros</Button>   
-            </Form.Group>   
+            <Form.Group className="mb-1 formfilter-button">
+                <Button variant="dark" type="submit" className='formfilter-button-filter'>Filtrar</Button>
+                <Button variant="dark" onClick={() => { handlerClean() }} className='formfilter-button-clean'>Limpiar Filtros</Button>
+            </Form.Group>
         </Form>
     )
 }

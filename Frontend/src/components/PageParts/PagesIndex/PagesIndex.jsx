@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Pagination from 'react-bootstrap/Pagination';
-import { useEffect} from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -89,7 +89,7 @@ function PagesIndex(props) {
 
     return (
 
-    <Pagination size="sm">
+    <Pagination size="sm" >
         {items}
     </Pagination>
   );

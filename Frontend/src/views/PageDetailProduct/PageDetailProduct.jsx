@@ -25,7 +25,7 @@ function PageDetailProduct() {
   productFind(id);
   
   return (
-    <div>
+    <div style={{width: "100%", padding: "1rem", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
       <Card type_card={type_card} product={product}></Card>
     </div>
   )
