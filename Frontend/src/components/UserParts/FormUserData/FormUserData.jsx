@@ -2,31 +2,32 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect} from "react";
+import '../FormUserData/FormUserData.css';
+import { useEffect } from "react";
 
 
 function FormUserData(props) {
 
     const { user, SetUser, handlerUserPut } = props;
     const [edit, SetEdit] = useState(false);
-    
 
-    useEffect(()=>{
+
+    useEffect(() => {
 
         console.log(user);
-    
-    },[user]);
+
+    }, [user]);
 
 
-    const handlerEdit = function(e){
+    const handlerEdit = function (e) {
         SetEdit(true);
     }
 
-    const handlerChange = function(e){
-        SetUser({...user,[e.target.name]:e.target.value});
+    const handlerChange = function (e) {
+        SetUser({ ...user, [e.target.name]: e.target.value });
     }
 
-    const handlerSubmit = function(e){
+    const handlerSubmit = function (e) {
         e.preventDefault();
         console.log("user antes de handlerUserPut al principio de handlerSubmit");
         console.log(user);
@@ -39,28 +40,30 @@ function FormUserData(props) {
 
     return (
         <div>
-            <Form style={{ width: "100%", padding: "1rem" }} onSubmit={handlerSubmit}>
-                <Form.Group className="mb-3">
-                    <Form.Text className="text-muted">Datos Usuario</Form.Text>
+            <Form className='form mb-2' onSubmit={handlerSubmit}>
+                <Form.Group className="form-title mb-2">
+                    <Form.Label className='form-title-text fs-5 fw-bold text-secondary'>Datos Usuario</Form.Label>
                 </Form.Group>
-                <Form.Group className="mb-3">
-                <Form.Label>Nombre</Form.Label>
-                {edit==true?<Form.Control type="text" name='name' placeholder={user.name} className='mt-3' value={user.name} onChange={handlerChange}/>:<Form.Control type="text" name='name' placeholder={user.name} className='mt-3' value={user.name} onChange={handlerChange} disabled/>}
+                <Form.Group className="form-group mb-1">
+                    <Form.Label className='form-group-text'>Nombre</Form.Label>
+                    {edit == true ? <Form.Control type="text" name='name' placeholder={user.name} className='form-group-input mt-0' value={user.name} onChange={handlerChange} /> : <Form.Control type="text" name='name' placeholder={user.name} className='form-group-input mt-0' value={user.name} onChange={handlerChange} disabled />}
                 </Form.Group>
-                <Form.Group className="mb-3">
-                <Form.Label>Apellido</Form.Label>
-                {edit==true?<Form.Control type="text" name='lastname' placeholder={user.lastname} className='mt-3' value={user.lastname} onChange={handlerChange}/>:<Form.Control type="text" name='lastname' placeholder={user.lastname} className='mt-3' value={user.lastname} onChange={handlerChange} disabled/>}
+                <Form.Group className="form-group mb-1">
+                    <Form.Label className='form-group-text'>Apellido</Form.Label>
+                    {edit == true ? <Form.Control type="text" name='lastname' placeholder={user.lastname} className='form-group-input mt-0' value={user.lastname} onChange={handlerChange} /> : <Form.Control type="text" name='lastname' placeholder={user.lastname} className='form-group-input mt-0' value={user.lastname} onChange={handlerChange} disabled />}
                 </Form.Group>
-                <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                {edit==true?<Form.Control type="email" name='email' placeholder={user.email} className='mt-3' value={user.email} onChange={handlerChange}/>:<Form.Control type="email" name='email' placeholder={user.email} className='mt-3' value={user.email} onChange={handlerChange} disabled/>}
+                <Form.Group className="form-group mb-1">
+                    <Form.Label className='form-group-text'>Email</Form.Label>
+                    {edit == true ? <Form.Control type="email" name='email' placeholder={user.email} className='form-group-input mt-0' value={user.email} onChange={handlerChange} /> : <Form.Control type="email" name='email' placeholder={user.email} className='form-group-input mt-0' value={user.email} onChange={handlerChange} disabled />}
                 </Form.Group>
-                <Form.Group className="mb-3">
-                <Form.Label>Edad</Form.Label>
-                {edit==true?<Form.Control type="text" name='age' placeholder={user.age} className='mt-3' value={user.age} onChange={handlerChange}/>:<Form.Control type="text" name='age' placeholder={user.age} className='mt-3' value={user.age} onChange={handlerChange} disabled/>}
+                <Form.Group className="form-group mb-1">
+                    <Form.Label className='form-group-text'>Edad</Form.Label>
+                    {edit == true ? <Form.Control type="text" name='age' placeholder={user.age} className='form-group-input mt-0' value={user.age} onChange={handlerChange} /> : <Form.Control type="text" name='age' placeholder={user.age} className='form-group-input mt-0' value={user.age} onChange={handlerChange} disabled />}
                 </Form.Group>
-                <Button variant="primary" onClick={()=>{handlerEdit()}}>Editar</Button>
-                {edit==true?<Button variant="primary" type="submit">Guardar</Button>:<Button variant="primary" type="submit" disabled>Guardar</Button>}
+                <Form.Group className="form-footer">
+                    <Button className="form-footer-button" variant="dark" onClick={() => { handlerEdit() }}>Editar</Button>
+                    {edit == true ? <Button className="form-footer-button" variant="dark" type="submit">Guardar</Button> : <Button className="form-footer-button" variant="dark" type="submit" disabled>Guardar</Button>}
+                </Form.Group>
             </Form>
         </div>
     )

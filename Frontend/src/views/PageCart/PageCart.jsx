@@ -25,7 +25,7 @@ function PageCart() {
 
 
   return (
-    <div className='cart'>
+    <div className='cart' style={{width:"100%", padding: "1rem"}}>
       <CartTable cartTable={cartTable} valorTotal={valorTotal} handlerCartTablePostProduct={handlerCartTablePostProduct} handlerCartTableDeleteProduct={handlerCartTableDeleteProduct} handlerCartTablePutCount={handlerCartTablePutCount}  handlerCartTableIfExistProduct={handlerCartTableIfExistProduct} handlerCartTableGetProduct={handlerCartTableIfExistProduct}  formatMoney={formatMoney}></CartTable>
     </div>
   )

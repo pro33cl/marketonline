@@ -40,22 +40,22 @@ const CartTable = (props) => {
     
   return (
     <div>
-        <div className='card-table-header'>
-            <h3 className='card-table-header-h3'>Detalles del Pedido:</h3>
+        <div className='cart-table-header'>
+            <h3 className='cart-table-header-h3'>Detalles del Pedido:</h3>
         </div>
-        <div className='card-table-body'>
+        <div className='cart-table-body'>
             {cartTable.map((element)=>{
                 return (
-                    <div className='card-table-row' key={element.id}>
-                        <div className='card-table-row-name'>
-                            <p className='card-table-row-p'>{element.name}</p>
+                    <div className='cart-table-row' key={element.id}>
+                        <div className='cart-table-row-name'>
+                            <p className='cart-table-row-p'>{element.name}</p>
                         </div>
-                        <div className='card-table-row-numbers'>
-                            <p className='card-table-row-p2'>${formatMoney(element.price*element.count,"CLP")}</p>
-                            <Button variant="secondary" onClick={()=>{handlerButtonLess(element.id)}}>-</Button>
-                            <p className='card-table-row-p3'>{element.count}</p>
-                            <Button variant="secondary" onClick={()=>{handlerButtonMore(element.id)}}>+</Button>
-                            <Button variant="secondary" onClick={()=>{handlerButtonDelete(element.id)}}>Eliminar</Button>
+                        <div className='cart-table-row-numbers'>
+                            <p className='cart-table-row-p2'>${formatMoney(element.price*element.count,"CLP")}</p>
+                            <Button className='cart-table-button' variant="secondary" onClick={()=>{handlerButtonLess(element.id)}}>-</Button>
+                            <p className='cart-table-row-p3'>{element.count}</p>
+                            <Button className='cart-table-button' variant="secondary" onClick={()=>{handlerButtonMore(element.id)}}>+</Button>
+                            <Button className='cart-table-button' variant="dark" onClick={()=>{handlerButtonDelete(element.id)}}>Eliminar</Button>
                         </div>
                     </div>
                 )
@@ -63,7 +63,7 @@ const CartTable = (props) => {
         </div>
         <div className='card-table-footer'>
             <h2 className='card-table-footer-h2'>Total: ${formatMoney(valorTotal,"CLP")}</h2>
-            <Button variant="secondary" onClick={()=>{navigate("/products/cart/result")}}>Ir a Pagar</Button>
+            <Button className='cart-table-footer-button' variant="dark" onClick={()=>{navigate("/products/cart/result")}}>Ir a Pagar</Button>
         </div>
     </div>
   )

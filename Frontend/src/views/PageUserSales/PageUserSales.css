@@ -3,8 +3,10 @@
 .page{
     display: flex;
     flex-direction: column;
-    justify-content: star;
+    justify-content: start;
     align-items: center;
+    width: 100%;
+    padding: 1rem;
 }
 
 .header{
@@ -22,226 +24,147 @@
 .body{
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: start;
+    align-items: center;
+    height: auto;
+    
+}
+
+.body-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
     align-items: center;
     height: auto;
 }
 
+.form{
 
-.card-table-header{
+    width: 18rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    justify-content: start;
-    align-items: start;
-}
-
-.card-table-header-h3{
-    font-size: 1.2rem;
-    font-weight: normal;
-    text-align: start;
-    margin-bottom: 1rem;
-}
-
-.card-table-row{
-    width: calc(100%-1rem);
-    padding: 0.5rem;
-    height: 3rem;
-    border-radius: 0.2rem;
-    margin-bottom: 0.5rem;
-    background-color: lightgrey;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+
 }
 
-.card-table-row-name{
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-    width: 8rem;
-}
+.form-title{
 
-.card-table-row-img{
-    width: 1.8rem;
-    height: 1.8rem;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 0.2rem;
-}
-
-.card-table-row-p{
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
-    font-size: 0.8rem;
-    text-align:start;
-    text-transform: capitalize;
-    font-weight: bold;
-    color: black;
-}
-
-.card-table-row-p2{
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
-    font-size: 0.8rem;
-    text-align:start;
-    text-transform: capitalize;
-    font-weight: normal;
-    color: green;
-}
-
-.card-table-row-p3{
-    margin-left: 0.1rem;
-    margin-right: 0.1rem;
-    width: 1rem;
-    font-size: 0.8rem;
-    text-align:center;
-    text-transform: capitalize;
-    font-weight: bold;
-    color: black;
-}
-
-
-.card-table-row-numbers{
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    align-items: center;
-    width: 15rem;
-}
-
-.card-table-footer{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: start;
+    width: 100%;
+
 }
 
-.card-table-footer-h2{
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    text-align:start;
-    text-transform: capitalize;
-    font-weight: normal;
-    color: black;
+.form-group{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+
 }
 
+.form-group-input{
+
+    width: 100%;
+    border-radius: 1rem;
+    margin: 0.1rem;
+    height: 2.4rem;
+}
+
+.form-footer{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+}
+
+
+.form-footer-button{
+
+    border-radius: 1rem;
+    height: 2.4rem;
+    margin: 0.2rem;
+    width: auto;
+}
+
+.table{
+
+    width: 100%;
+}
+
+.table-button{
+
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    height: 2rem;
+    margin: 0.2rem;
+    width: auto;
+}
+
+.table-title{
+
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.table-text{
+
+    font-size: 0.8rem;
+}
 
 /* 576px < width < 992px , TABLETS*/
 @media(min-width: 576px){
 
-    .card{
+    .table-button{
 
-
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        height: 2rem;
+        margin: 0.2rem;
+        width: auto;
     }
     
-    .card-header{
+    .table-title{
     
-    
+        font-size: 0.8rem;
+        font-weight: bold;
     }
     
-    .card-header-image{
+    .table-text{
     
-    
+        font-size: 0.8rem;
     }
     
-    .card-body{
-    
-    }
-    
-    .card-body-title{
-    
-    
-    }
-    
-    .card-body-calification{
-    
-    
-    }
-    
-    .card-body-description{
-    
-    
-    }
-    
-    .card-body-price{
-    
-    
-    }
-    
-    .card-footer{
-    
-    
-    }
-    
-    .card-footer-counts{
-    
-    }
-    
-    .card-footer-buttons{
-    
-        
-    }
-    
-
-
 }
 /* 992px < width, DESKTOP*/
 @media(min-width: 992px){
 
-    .card{
+    .table-button{
 
-
+        border-radius: 1rem;
+        font-size: 1rem;
+        height: 2.2rem;
+        margin: 0.2rem;
+        width: auto;
     }
     
-    .card-header{
+    .table-title{
     
-    
+        font-size: 1rem;
+        font-weight: bold;
     }
     
-    .card-header-image{
+    .table-text{
     
-    
-    }
-    
-    .card-body{
-    
-    }
-    
-    .card-body-title{
-    
-    
-    }
-    
-    .card-body-calification{
-    
-    
-    }
-    
-    .card-body-description{
-    
-    
-    }
-    
-    .card-body-price{
-    
-    
-    }
-    
-    .card-footer{
-    
-    
-    }
-    
-    .card-footer-counts{
-    
-    }
-    
-    .card-footer-buttons{
-    
-        
+        font-size: 1rem;
     }
     
 }

@@ -14,6 +14,7 @@ const Context_User_Provider = ({children}) =>{
     const [accessLogin, SetAccessLogin]= useState(accessLogin_Init);
     const [pageUserSales, SetPageUserSales]= useState(1);
     const [totalPagesUserSales, SetTotalPagesUserSales] = useState(1);
+    const [pageUser, SetPageUser] = useState("user");
 
     const urlServer = URLBASE;
 
@@ -22,13 +23,44 @@ const Context_User_Provider = ({children}) =>{
 
         const user_res = handlerUserGet();
     
-    },[accessLogin]);
+    },[accessLogin, pageUser]);
 
     useEffect(()=>{
 
         const userSales_res = handlerUserSalesGet();
 
     },[accessLogin, pageUserSales]);
+
+    useEffect(()=>{
+
+        handlerRefreshPage("user");
+
+    },[accessLogin]);
+
+// ----------------------------------------------------------
+// FUNCIONES PARA PAGEUSERDATA y PAGEUSERSALES
+// ----------------------------------------------------------
+
+const handlerPage = function(k){
+
+    if(k == "user"){
+    
+      handlerRefreshPage(k);  
+      return "/products/user/data";
+    }
+    else if(k == "usersales"){
+     
+      handlerRefreshPage(k);   
+      return "/products/user/sales";
+    }
+}
+
+const handlerRefreshPage = function(k){
+
+    const k_copy =  JSON.parse(JSON.stringify(k));
+    SetPageUser(k_copy);
+}
+
 
 // ----------------------------------------------------------
 // FUNCIONES PARA PAGEUSERREGISTER
@@ -561,7 +593,9 @@ const Context_User_Provider = ({children}) =>{
         totalPagesUserSales,
         SetTotalPagesUserSales,
         pageUserSales, 
-        SetPageUserSales
+        SetPageUserSales,
+        pageUser,
+        handlerPage
     };
 
 

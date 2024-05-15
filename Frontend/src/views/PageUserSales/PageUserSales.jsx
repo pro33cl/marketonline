@@ -43,7 +43,9 @@ function PageUserSales() {
     totalPagesUserSales,
     SetTotalPagesUserSales,
     pageUserSales, 
-    SetPageUserSales
+    SetPageUserSales,
+    pageUser,
+    handlerPage
   
   } = receiving;
 
@@ -201,29 +203,29 @@ function PageUserSales() {
   return (
     <div className='page'>
       <div className='header'>
-        <MenuUser></MenuUser>
+        <MenuUser pageUser={pageUser} handlerPage={handlerPage}></MenuUser>
       </div>
       <div className='body'>
-        <div className='form'>
-          <Form id='formSale'  style={{ width: "100%", padding: "1rem" }} onSubmit={handlerSubmit}>
-            <Form.Group  className="mb-2">
-              <Form.Label className="mb-0">Formulario Venta</Form.Label>
+        <div className='body-form'>
+          <Form id='formSale' className='form' onSubmit={handlerSubmit}>
+            <Form.Group className="form-title mb-2">
+              <Form.Label className="form-title-text fs-5 fw-bold text-secondary">Formulario Venta</Form.Label>
             </Form.Group>
-            <Form.Group className="mb-1">
-              <Form.Label className="mb-0">Producto</Form.Label>
-              {enabled == true ? <Form.Control size='sm' className="mt-0" type="text" name='name' placeholder={userFormSale.name} value={userFormSale.name} onChange={handlerChange} />:<Form.Control size='sm' className="mt-0" type="text" name='name' placeholder={userFormSale.name} value={userFormSale.name} onChange={handlerChange} disabled/>}
+            <Form.Group className="form-group mb-1">
+              <Form.Label className="form-title-text">Producto</Form.Label>
+              {enabled == true ? <Form.Control size='sm' className="form-group-input mt-0" type="text" name='name' placeholder={userFormSale.name} value={userFormSale.name} onChange={handlerChange} />:<Form.Control size='sm' className="form-group-input mt-0" type="text" name='name' placeholder={userFormSale.name} value={userFormSale.name} onChange={handlerChange} disabled/>}
             </Form.Group>
-            <Form.Group className="mb-1">
-              <Form.Label className="mb-0">Cargar Imagen</Form.Label>
-              {enabled == true ? <Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChangeInputFile} id='formfileinput' />:<Form.Control size='sm' className="mt-0" type="file" name='file' onChange={handlerChangeInputFile} id='formfileinput' disabled/>}
+            <Form.Group className="form-group mb-1">
+              <Form.Label className="form-title-text">Cargar Imagen</Form.Label>
+              {enabled == true ? <Form.Control className="form-group-input mt-0" type="file" name='file' onChange={handlerChangeInputFile} id='formfileinput' />:<Form.Control className="form-group-input mt-0" type="file" name='file' onChange={handlerChangeInputFile} id='formfileinput' disabled/>}
             </Form.Group>
-            <Form.Group className="mb-1">
-              <Form.Label className="mb-0">Precio</Form.Label>
-              {enabled == true ? <Form.Control size='sm' className="mt-0" type="text" name='price' placeholder={userFormSale.price} value={userFormSale.price} onChange={handlerChange} />:<Form.Control size='sm' className="mt-0" type="text" name='price' placeholder={userFormSale.price} value={userFormSale.price} onChange={handlerChange} disabled/>}
+            <Form.Group className="form-group mb-1">
+              <Form.Label className="form-title-text">Precio</Form.Label>
+              {enabled == true ? <Form.Control size='sm' className="form-group-input mt-0" type="text" name='price' placeholder={userFormSale.price} value={userFormSale.price} onChange={handlerChange} />:<Form.Control size='sm' className="form-group-input mt-0" type="text" name='price' placeholder={userFormSale.price} value={userFormSale.price} onChange={handlerChange} disabled/>}
             </Form.Group>
-            <Form.Group className="mb-1">
+            <Form.Group className="form-group mb-1">
             {enabled == true ?
-              <Form.Select onChange={handlerChange} name='category' aria-label="Default select example">
+              <Form.Select className="form-group-input mt-0" onChange={handlerChange} name='category' aria-label="Default select example">
                 <option>Categoría</option>
                 <option value="pantalon">Pantalón</option>
                 <option value="falda">Falda</option>
@@ -232,7 +234,7 @@ function PageUserSales() {
                 <option value="zapatos">Zapatos</option>
                 <option value="zapatillas">Zapatillas</option>
               </Form.Select>:
-              <Form.Select onChange={handlerChange} name='category' aria-label="Default select example" disabled>
+              <Form.Select className="form-group-input mt-0" onChange={handlerChange} name='category' aria-label="Default select example" disabled>
                 <option>Categoría</option>
                 <option value="pantalon">Pantalón</option>
                 <option value="falda">Falda</option>
@@ -243,32 +245,31 @@ function PageUserSales() {
               </Form.Select>
             }
             </Form.Group>
-            <Form.Group className="mb-1">
-              <Form.Label className="mb-0">Descripción:</Form.Label>
-              {enabled == true ? <Form.Control as="textarea" name='description' rows={7}  placeholder={userFormSale.description} className='mt-3' value={userFormSale.description} onChange={handlerChange}/>:<Form.Control as="textarea" name='description' rows={7}  placeholder={userFormSale.description} className='mt-3' value={userFormSale.description} onChange={handlerChange} disabled/>}
+            <Form.Group className="form-group mb-1">
+              <Form.Label className="form-title-text">Descripción:</Form.Label>
+              {enabled == true ? <Form.Control as="textarea" name='description' rows={7}  placeholder={userFormSale.description} className='form-group-input2 mt-0' value={userFormSale.description} onChange={handlerChange}/>:<Form.Control as="textarea" name='description' rows={7}  placeholder={userFormSale.description} className='form-group-input2 mt-0' value={userFormSale.description} onChange={handlerChange} disabled/>}
             </Form.Group>
-            <Form.Group className="mb-1">
+            <Form.Group className="form-group mb-1">
               <Image id='formimage' width={'200px'} rounded/>
+              <Form.Label className="form-title-text">{message}</Form.Label>
             </Form.Group>
-            <Form.Group className="mb-1">
-              {enabled == true ? <Button variant="primary" onClick={() => { handlerAdd()}} disabled >Nuevo</Button>:<Button variant="primary" onClick={() => { handlerAdd()}}>Nuevo</Button>}
-              {enabled == true ? <Button variant="primary" onClick={() => { handlerCancel()}}>Cancelar</Button>:<Button variant="primary" onClick={() => { handlerCancel()}} disabled >Cancelar</Button>}
-              {enabled == true ? <Button  variant="primary" type="submit">Guardar</Button>:<Button  variant="primary" type="submit"disabled>Guardar</Button>}
-              <Form.Label className="mb-0">{message}</Form.Label>
+            <Form.Group className="form-footer mb-1">
+              {enabled == true ? <Button className="form-footer-button" variant="dark" onClick={() => { handlerAdd()}} disabled >Nuevo</Button>:<Button className="form-footer-button" variant="dark" onClick={() => { handlerAdd()}}>Nuevo</Button>}
+              {enabled == true ? <Button className="form-footer-button" variant="dark" onClick={() => { handlerCancel()}}>Cancelar</Button>:<Button className="form-footer-button" variant="dark" onClick={() => { handlerCancel()}} disabled >Cancelar</Button>}
+              {enabled == true ? <Button className="form-footer-button" variant="dark" type="submit">Guardar</Button>:<Button className="form-footer-button" variant="dark" type="submit" disabled>Guardar</Button>}
             </Form.Group>
           </Form>
-
         </div>
         <div className='table'>
           <Table striped bordered hover size="sm">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Categoría</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
+                <th className='table-title'>#</th>
+                <th className='table-title'>Prod.</th>
+                <th className='table-title'>Precio</th>
+                <th className='table-title'>Categ.</th>
+                <th className='table-title'></th>
+                <th className='table-title'></th>
               </tr>
             </thead>
             <tbody>
@@ -276,12 +277,12 @@ function PageUserSales() {
                 userSales.map((element, i) => {
                   return (
                     <tr key={element.id}>
-                      <td>{i+1}</td>
-                      <td>{element.name}</td>
-                      <td>{element.price}</td>
-                      <td>{element.category}</td>
-                      <td><Button size='sm' variant="primary" onClick={() => { handlerEdit(element.id) }}>Editar</Button></td>
-                      <td><Button size='sm' variant="danger" onClick={() => { handlerDelete(element.id) }}>X</Button></td>
+                      <td className='table-text'>{i+1}</td>
+                      <td className='table-text'>{element.name}</td>
+                      <td className='table-text'>{element.price}</td>
+                      <td className='table-text'>{element.category}</td>
+                      <td className='table-text'><Button className='table-button' variant="dark" onClick={() => { handlerEdit(element.id) }}>Editar</Button></td>
+                      <td className='table-text'><Button className='table-button' variant="danger" onClick={() => { handlerDelete(element.id) }}>X</Button></td>
                     </tr>
                   );
                 })

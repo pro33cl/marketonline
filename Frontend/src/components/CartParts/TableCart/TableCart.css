@@ -1,18 +1,18 @@
-.card-table-header{
+.cart-table-header{
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: start;
 }
 
-.card-table-header-h3{
+.cart-table-header-h3{
     font-size: 1.2rem;
     font-weight: normal;
     text-align: start;
     margin-bottom: 1rem;
 }
 
-.card-table-row{
+.cart-table-row{
     width: calc(100%-1rem);
     padding: 0.5rem;
     height: 3rem;
@@ -25,7 +25,7 @@
     align-items: center;
 }
 
-.card-table-row-name{
+.cart-table-row-name{
     display: flex;
     flex-direction: row;
     justify-content: start;
@@ -33,7 +33,7 @@
     width: 8rem;
 }
 
-.card-table-row-img{
+.cart-table-row-img{
     width: 1.8rem;
     height: 1.8rem;
     background-repeat: no-repeat;
@@ -41,9 +41,8 @@
     border-radius: 0.2rem;
 }
 
-.card-table-row-p{
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
+.cart-table-row-p{
+    margin: 0.2rem;
     font-size: 0.8rem;
     text-align:start;
     text-transform: capitalize;
@@ -51,19 +50,17 @@
     color: black;
 }
 
-.card-table-row-p2{
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
+.cart-table-row-p2{
+    margin: 0.2rem;
     font-size: 0.8rem;
     text-align:start;
     text-transform: capitalize;
     font-weight: normal;
-    color: green;
+    color: black;
 }
 
-.card-table-row-p3{
-    margin-left: 0.1rem;
-    margin-right: 0.1rem;
+.cart-table-row-p3{
+    margin: 0.2rem;
     width: 1rem;
     font-size: 0.8rem;
     text-align:center;
@@ -73,7 +70,7 @@
 }
 
 
-.card-table-row-numbers{
+.cart-table-row-numbers{
     display: flex;
     flex-direction: row;
     justify-content: end;
@@ -81,14 +78,24 @@
     width: 15rem;
 }
 
-.card-table-footer{
+.cart-table-button{
+
+    margin: 0.2rem;
+    width: auto;
+    height: 2rem;
+    font-size: 0.8rem;
+    text-align:center;
+    border-radius: 0.5rem;
+}
+
+.cart-table-footer{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: start;
 }
 
-.card-table-footer-h2{
+.cart-table-footer-h2{
     margin-top: 1rem;
     margin-bottom: 1rem;
     font-size: 1.5rem;
@@ -96,4 +103,14 @@
     text-transform: capitalize;
     font-weight: normal;
     color: black;
+}
+
+.cart-table-footer-button{
+
+    margin: 0.2rem;
+    width: auto;
+    height: 2.4rem;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 1rem;
 }

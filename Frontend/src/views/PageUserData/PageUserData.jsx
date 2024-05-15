@@ -2,9 +2,9 @@ import React from 'react';
 import MenuUser from '../../components/UserParts/MenuUser/MenuUser';
 import '../../views/PageUserData/PageUserData.css';
 import FormUserData from '../../components/UserParts/FormUserData/FormUserData';
-import { useContext} from 'react';
+import { useContext } from 'react';
 import { Context_User } from '../../contexts/Context_User.jsx';
-import { useEffect} from "react";
+import { useEffect } from "react";
 import FormUserPassword from '../../components/UserParts/FormUserPassword/FormUserPassword.jsx';
 
 
@@ -15,10 +15,10 @@ function PageUserData() {
 
   const {
     user,
-    SetUser, 
+    SetUser,
     userSales,
-    SetUserSales, 
-    handlerUserGet, 
+    SetUserSales,
+    handlerUserGet,
     handlerUserPut,
     handlerUserPost,
     handlerUserSalesGet,
@@ -31,24 +31,30 @@ function PageUserData() {
     accessLogin,
     SetAccessLogin,
     totalPagesUserSales,
-    SetTotalPagesUserSales
-  
+    SetTotalPagesUserSales,
+    pageUserSales,
+    SetPageUserSales,
+    pageUser,
+    handlerPage
+
   } = receiving;
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
     console.log(user);
 
-  },[user]);
+  }, [user]);
 
   return (
     <div className='page'>
       <div className='header'>
-        <MenuUser></MenuUser>
+        <MenuUser pageUser={pageUser} handlerPage={handlerPage}></MenuUser>
       </div>
-      <div className='body'>
+      <div className='body-data'>
         <FormUserData user={user} SetUser={SetUser} handlerUserPut={handlerUserPut}></FormUserData>
+      </div>
+      <div className='body-password'>
         <FormUserPassword user={user} SetUser={SetUser} handlerUserPut={handlerUserPut}></FormUserPassword>
       </div>
     </div>
